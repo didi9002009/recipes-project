@@ -17,7 +17,11 @@ class App extends Component {
       let ingredients = snapshot.docs;
       let newState = [];
       for (let item in ingredients) {
-        newState.push(ingredients[item].data());
+        const ingredient = {
+          ...ingredients[item].data(),
+          id: ingredients[item].ref.id,
+        };
+        newState.push(ingredient);
       }
       this.setState({
         ingredients: newState,
