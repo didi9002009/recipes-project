@@ -50,6 +50,13 @@ class App extends Component {
     .catch(error => console.log('Error adding document: ', error));
   }
 
+  deleteIngredient = (id) => {
+    console.log('Deleting: ', id)
+    db.collection('ingredients').doc(id).delete()
+    .then(() => console.log(`Document ${id} successfully deleted!`))
+    .catch(error => console.log('Error removing document: ', error))
+  }
+
   handleInputChange = (event) => {
     this.setState({
       ingredientToAdd: {
@@ -66,7 +73,7 @@ class App extends Component {
         <h1>Current Ingredients</h1>
         <ul>
         { this.state.ingredients.map(item => (
-          <li key={item.label}>{item.measurement} {item.unit} {item.label}</li>
+          <li key={item.label}>{item.measurement} {item.unit} {item.label} | <button onClick={() => this.deleteIngredient(item.id)}>Delete</button></li>
         ))}
         </ul>
       </div>
