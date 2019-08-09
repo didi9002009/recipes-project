@@ -8,6 +8,7 @@ class App extends Component {
       label: '',
       measurement: 0,
       unit: '',
+      id: '',
     },
   }
 
@@ -21,6 +22,7 @@ class App extends Component {
           ...ingredients[item].data(),
           id: ingredients[item].ref.id,
         };
+        console.log('ingredient: ', ingredient)
         newState.push(ingredient);
       }
       this.setState({
@@ -50,11 +52,38 @@ class App extends Component {
     .catch(error => console.log('Error adding document: ', error));
   }
 
+  updateIngredient = (id) => {
+    const { label, measurement, unit } = this.state.ingredientToAdd;
+    console.log(`Updating ${id}: `, label, measurement, unit);
+    db.collection('ingredients').doc(id).set({
+      label,
+      measurement,
+      unit
+    })
+    .then(() => console.log(`Document ${id} successfully updated!`))
+    .catch(error => console.log('Error updating: ', error))
+    this.setState({
+      ingredientToAdd: {
+        label: '',
+        measurement: '',
+        unit: '',
+        id: '',
+      }
+    })
+  }
+
   deleteIngredient = (id) => {
     console.log('Deleting: ', id)
     db.collection('ingredients').doc(id).delete()
     .then(() => console.log(`Document ${id} successfully deleted!`))
     .catch(error => console.log('Error removing document: ', error))
+  }
+
+  editIngredient = (id) => {
+    const targetIngredient = this.state.ingredients.find(item => item.id === id);
+    this.setState({
+      ingredientToAdd: targetIngredient,
+    });
   }
 
   handleInputChange = (event) => {
@@ -73,12 +102,12 @@ class App extends Component {
         <h1>Current Ingredients</h1>
         <ul>
         { this.state.ingredients.map(item => (
-          <li key={item.label}>{item.measurement} {item.unit} {item.label} | <button onClick={() => this.deleteIngredient(item.id)}>Delete</button></li>
+          <li key={item.id}>{item.measurement} {item.unit} {item.label} | <button onClick={() => this.deleteIngredient(item.id)}>Delete</button> | <button onClick={() => this.editIngredient(item.id)}>Edit</button></li>
         ))}
         </ul>
       </div>
       <div className="add-ingredient">
-        <h2>Add Ingredient</h2>
+        <h2>{this.state.ingredientToAdd.id ? 'Edit' : 'Add' } Ingredient</h2>
         <label htmlFor="label">
           Name:
           <input type="text" id="label" name="label" onChange={this.handleInputChange} value={this.state.ingredientToAdd.label} /><br />
@@ -91,7 +120,7 @@ class App extends Component {
           Unit:
           <input type="text" id="unit" name="unit" onChange={this.handleInputChange} value={this.state.ingredientToAdd.unit} /><br />
         </label>
-        <button onClick={this.addIngredient}>Save</button>
+        <button onClick={this.state.ingredientToAdd.id ? () => this.updateIngredient(this.state.ingredientToAdd.id) : this.addIngredient}>Save</button>
       </div>
       </>
     );
