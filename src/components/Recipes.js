@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
 import db from '../firebase';
+import { RecipesList } from './styles/Views';
 
 class Recipes extends Component {
   state = {
@@ -26,14 +34,23 @@ class Recipes extends Component {
 
   render() {
     return (
-      <div className="recipes">
-        <h1>Current Recipes</h1>
-        <ul>
+      <RecipesList>
+        <h1>My Recipes</h1>
+        <Accordion allowZeroExpanded>
         { this.state.recipes.map(item => (
-          <li key={item.id}>{item.title}</li>
+          <AccordionItem key={item.id}>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                {item.title}
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              {item.instructions}
+            </AccordionItemPanel>
+          </AccordionItem>
         ))}
-        </ul>
-      </div>
+        </Accordion>
+      </RecipesList>
     );
   }
 }

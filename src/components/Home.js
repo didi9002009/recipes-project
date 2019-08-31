@@ -6,8 +6,8 @@ class Home extends Component {
     return (
       <div>
         <h1>Welcome!</h1>
-        <HomeButton>+ Recipe</HomeButton><br />
-        <HomeButton>+ Ingredient</HomeButton><br />
+        <HomeButton onClick={() => this.props.openModal(true)}>+ Recipe</HomeButton><br />
+        <HomeButton onClick={() => this.props.openModal(false)}>+ Ingredient</HomeButton><br />
         <HomeButton blue>What Should I Make?</HomeButton><br />
         <p>(Or swipe or key left or right for more...)</p>
       </div>

@@ -13,7 +13,7 @@ export const HomeContainer = styled.div`
   text-align: center;
 `;
 
-export const IngredientsList = styled.div`
+export const IngredientsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -22,3 +22,28 @@ export const IngredientsList = styled.div`
   background-color: #FFFAFF;
   color: #1E1B18;
 `;
+
+export const RecipesContainer = styled(IngredientsContainer)``;
+
+export const IngredientsList = styled.div`
+  width: 80%;
+  max-width: 600px;
+  .accordion {
+    width: 100%;
+  }
+  .accordion__item {
+    border-bottom: 1px solid #1E1B18;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+  .accordion__heading {
+    text-transform: lowercase;
+    padding: 1rem 0;
+  }
+  .accordion__panel {
+    padding-bottom: 1rem;
+  }
+`;
+
+export const RecipesList = styled(IngredientsList)``;

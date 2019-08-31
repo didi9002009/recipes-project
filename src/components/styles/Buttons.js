@@ -11,3 +11,15 @@ export const HomeButton = styled.button`
   border: none;
   margin-bottom: 1rem;
 `;
+
+export const CloseButton = styled.button`
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  color: #FFFAFF;
+  font-size: 1.8rem;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;

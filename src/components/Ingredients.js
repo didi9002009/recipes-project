@@ -7,6 +7,7 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import db from '../firebase';
+import { IngredientsList } from './styles/Views';
 
 class Ingredients extends Component {
   state = {
@@ -45,9 +46,9 @@ class Ingredients extends Component {
 
   render() {
     return (
-      <div className="ingredients">
+      <IngredientsList>
         <h1>My Pantry</h1>
-        <Accordion>
+        <Accordion allowZeroExpanded>
         { this.state.ingredients.map(item => (
           <AccordionItem key={item.id}>
             <AccordionItemHeading>
@@ -62,7 +63,7 @@ class Ingredients extends Component {
           </AccordionItem>
         ))}
         </Accordion>
-      </div>
+      </IngredientsList>
     );
   }
 }
