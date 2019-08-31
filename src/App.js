@@ -13,6 +13,8 @@ import { CloseButton } from './components/styles/Buttons';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
+Modal.setAppElement('#root');
+
 const StyledModal = styled(Modal)`
   border: none;
   position: absolute;
@@ -43,6 +45,20 @@ class App extends Component {
     isIngredientModal: false,
   }
 
+  setIngredientToEdit = (targetIngredient) => {
+    this.setState({
+      targetIngredient,
+      isModalOpen: true,
+      isIngredientModal: true,
+    });
+  }
+
+  // setTargetIngredient = (targetIngredient) => {
+  //   this.setState({
+  //     targetIngredient,
+  //   }, () => this.openModal(false));
+  // }
+
   openModal = (isRecipe=true) => {
     this.setState({
       isModalOpen: true,
@@ -55,6 +71,7 @@ class App extends Component {
       isModalOpen: false,
       isRecipeModal: false,
       isIngredientModal: false,
+      targetIngredient: null,
     })
   }
 
@@ -66,7 +83,7 @@ class App extends Component {
           <Home openModal={this.openModal} closeModal={this.closeModal} />
         </HomeContainer>
         <IngredientsContainer key={1}>
-          <Ingredients setTargetIngredient={this.setTargetIngredient} openModal={this.openModal} />
+          <Ingredients setIngredientToEdit={this.setIngredientToEdit} openModal={this.openModal} />
         </IngredientsContainer>
         <RecipesContainer key={2}>
           <Recipes openModal={this.openModal} />

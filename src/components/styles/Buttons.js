@@ -12,6 +12,30 @@ export const HomeButton = styled.button`
   margin-bottom: 1rem;
 `;
 
+export const AddButton = styled(HomeButton)`
+  margin: 1rem auto;
+`;
+
+export const DeleteButton = styled(HomeButton)`
+  background-color: red;
+  font-size: 1rem;
+`;
+
+export const EditButton = styled.button`
+  font-family: "Roboto Mono";
+  font-size: 1rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: bold;
+  text-decoration: underline;
+`;
+
+// export const EditButton = styled(HomeButton)`
+//   background-color: green;
+//   font-size: 1rem;
+// `;
+
 export const CloseButton = styled.button`
   width: 40px;
   height: 40px;

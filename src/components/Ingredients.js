@@ -7,7 +7,8 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import db from '../firebase';
-import { IngredientsList } from './styles/Views';
+import { IngredientsList, JustifiedRow } from './styles/Views';
+import { AddButton, DeleteButton, EditButton } from './styles/Buttons';
 
 class Ingredients extends Component {
   state = {
@@ -35,13 +36,20 @@ class Ingredients extends Component {
 
   editIngredient = (id) => {
     const targetIngredient = this.state.ingredients.find(item => item.id === id);
-    this.props.setTargetIngredient(targetIngredient);
+    this.props.setIngredientToEdit(targetIngredient);
   }
 
   resetEditIngredient = () => {
     this.setState({
       targetIngredient: null,
     });
+  }
+
+  deleteIngredient = (id) => {
+    console.log('Deleting: ', id);
+    db.collection('ingredients').doc(id).delete()
+    .then(() => console.log(`Document ${id} successfully deleted!`))
+    .catch(error => console.log('Error removing document: ', error));
   }
 
   render() {
@@ -57,12 +65,16 @@ class Ingredients extends Component {
               </AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel>
-                Currently: {item.measurement} {item.unit}<br />
-                <button onClick={() => this.deleteIngredient(item.id)}>Delete</button> | <button onClick={() => this.editIngredient(item.id)}>Edit</button>
+                <p>You have {item.measurement} {item.unit}.</p>
+                <JustifiedRow>
+                  <EditButton onClick={() => this.editIngredient(item.id)}>Edit</EditButton>&nbsp;
+                  <DeleteButton onClick={() => this.deleteIngredient(item.id)}>Delete</DeleteButton>
+                </JustifiedRow>
             </AccordionItemPanel>
           </AccordionItem>
         ))}
         </Accordion>
+        <AddButton onClick={() => this.props.openModal(false)}>+ Ingredient</AddButton>
       </IngredientsList>
     );
   }

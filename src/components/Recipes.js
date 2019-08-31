@@ -8,6 +8,7 @@ import {
 } from 'react-accessible-accordion';
 import db from '../firebase';
 import { RecipesList } from './styles/Views';
+import { AddButton } from './styles/Buttons';
 
 class Recipes extends Component {
   state = {
@@ -50,6 +51,7 @@ class Recipes extends Component {
           </AccordionItem>
         ))}
         </Accordion>
+        <AddButton onClick={() => this.props.openModal(true)}>+ Recipe</AddButton>
       </RecipesList>
     );
   }

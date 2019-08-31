@@ -28,6 +28,9 @@ export const RecipesContainer = styled(IngredientsContainer)``;
 export const IngredientsList = styled.div`
   width: 80%;
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   .accordion {
     width: 100%;
   }
@@ -40,6 +43,10 @@ export const IngredientsList = styled.div`
   .accordion__heading {
     text-transform: lowercase;
     padding: 1rem 0;
+    font-size: 1.2rem;
+    [aria-expanded="true"] {
+      font-weight: bold;
+    }
   }
   .accordion__panel {
     padding-bottom: 1rem;
@@ -47,3 +54,9 @@ export const IngredientsList = styled.div`
 `;
 
 export const RecipesList = styled(IngredientsList)``;
+
+export const JustifiedRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

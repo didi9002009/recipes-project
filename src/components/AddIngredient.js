@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import db from '../firebase';
+import { StyledFormGroup, StyledInputGroup, StyledInput, StyledLabel, StyledSubmitButton } from './styles/Forms';
 
 class AddIngredient extends Component {
   state = {
     ingredientToAdd: {
       label: '',
-      measurement: 0,
+      measurement: '',
       unit: '',
       id: '',
     },
+  }
+
+  componentDidMount = () => {
+    if (this.props.ingredientToEdit) {
+      this.setState({
+        ingredientToAdd: this.props.ingredientToEdit,
+      });
+    }
   }
 
   componentDidUpdate = (_, prevState) => {
@@ -34,7 +43,7 @@ class AddIngredient extends Component {
       this.setState({
         ingredientToAdd: {
           label: '',
-          measurement: 0,
+          measurement: '',
           unit: '',
         }
       });
@@ -63,13 +72,6 @@ class AddIngredient extends Component {
     this.props.resetEditIngredient();
   }
 
-  deleteIngredient = (id) => {
-    console.log('Deleting: ', id)
-    db.collection('ingredients').doc(id).delete()
-    .then(() => console.log(`Document ${id} successfully deleted!`))
-    .catch(error => console.log('Error removing document: ', error))
-  }
-
   handleInputChange = (event) => {
     this.setState({
       ingredientToAdd: {
@@ -81,22 +83,46 @@ class AddIngredient extends Component {
 
   render() {
     return (
-      <div className="add-ingredient">
+      <StyledFormGroup>
         <h2>{this.state.ingredientToAdd.id ? 'Edit' : 'Add' } Ingredient</h2>
-        <label htmlFor="label">
-          Name:
-          <input type="text" id="label" name="label" onChange={this.handleInputChange} value={this.state.ingredientToAdd.label} /><br />
-        </label>
-        <label htmlFor="measurement">
-          Number:
-          <input type="number" id="measurement" name="measurement" onChange={this.handleInputChange} value={this.state.ingredientToAdd.measurement} /><br />
-        </label>
-        <label htmlFor="unit">
-          Unit:
-          <input type="text" id="unit" name="unit" onChange={this.handleInputChange} value={this.state.ingredientToAdd.unit} /><br />
-        </label>
-        <button onClick={this.state.ingredientToAdd.id ? () => this.updateIngredient(this.state.ingredientToAdd.id) : this.addIngredient}>Save</button>
-      </div>
+        <StyledInputGroup>
+          <StyledLabel>Name</StyledLabel>
+          <StyledInput
+            type="text"
+            id="label"
+            name="label"
+            onChange={this.handleInputChange}
+            value={this.state.ingredientToAdd.label}
+          />
+        </StyledInputGroup>
+        <StyledInputGroup half>
+          <StyledLabel>Amount</StyledLabel>
+          <StyledInput 
+            type="number"
+            id="measurement"
+            name="measurement"
+            onChange={this.handleInputChange}
+            value={this.state.ingredientToAdd.measurement}
+          />
+        </StyledInputGroup>
+        <StyledInputGroup half second>
+          <StyledLabel>Unit</StyledLabel>
+          <StyledInput
+            type="text"
+            id="unit"
+            name="unit"
+            onChange={this.handleInputChange}
+            value={this.state.ingredientToAdd.unit}
+          />
+        </StyledInputGroup>
+        <StyledInputGroup>
+          <StyledSubmitButton
+            onClick={this.state.ingredientToAdd.id ? () => this.updateIngredient(this.state.ingredientToAdd.id) : this.addIngredient}
+          >
+            Save
+          </StyledSubmitButton>
+        </StyledInputGroup>
+      </StyledFormGroup>
     );
   }
 }
