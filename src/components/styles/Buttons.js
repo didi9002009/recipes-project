@@ -31,11 +31,6 @@ export const EditButton = styled.button`
   text-decoration: underline;
 `;
 
-// export const EditButton = styled(HomeButton)`
-//   background-color: green;
-//   font-size: 1rem;
-// `;
-
 export const CloseButton = styled.button`
   width: 40px;
   height: 40px;

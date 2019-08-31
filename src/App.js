@@ -53,12 +53,6 @@ class App extends Component {
     });
   }
 
-  // setTargetIngredient = (targetIngredient) => {
-  //   this.setState({
-  //     targetIngredient,
-  //   }, () => this.openModal(false));
-  // }
-
   openModal = (isRecipe=true) => {
     this.setState({
       isModalOpen: true,

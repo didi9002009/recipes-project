@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import db from '../firebase';
+import {
+  StyledFormGroup,
+  StyledInputGroup,
+  StyledInput,
+  StyledTextarea,
+  StyledLabel,
+  StyledSubmitButton,
+} from './styles/Forms';
 
 class AddRecipe extends Component {
   state = {
@@ -67,22 +75,48 @@ class AddRecipe extends Component {
 
   render() {
     return (
-      <div className="add-recipe">
+      <StyledFormGroup>
         <h2>Add Recipe</h2>
-        <label htmlFor="title">
-          Title:
-          <input type="text" id="title" name="title" onChange={this.handleInputChange} value={this.state.recipeToAdd.title} /><br />
-        </label>
-        <label htmlFor="ingredients">
-          Ingredients (on separate lines):<br />
-          <textarea id="ingredients" name="ingredients" onChange={this.handleInputChange} value={this.state.recipeToAdd.ingredients}></textarea><br />
-        </label>
-        <label htmlFor="instructions">
-          Instructions:<br />
-          <textarea id="instructions" name="instructions" onChange={this.handleInputChange} value={this.state.recipeToAdd.instructions}></textarea><br />
-        </label>
-        <button onClick={this.state.recipeToAdd.id ? () => this.updateRecipe(this.state.recipeToAdd.id) : this.addRecipe}>Save</button>
-      </div>
+        <StyledInputGroup>
+          <StyledLabel>Title</StyledLabel>
+          <StyledInput 
+            type="text"
+            id="title"
+            name="title"
+            onChange={this.handleInputChange}
+            value={this.state.recipeToAdd.title}
+          />
+        </StyledInputGroup>
+        <StyledInputGroup>
+          <StyledLabel>Ingredients (on separate lines)</StyledLabel>
+          <StyledTextarea 
+            id="ingredients"
+            name="ingredients"
+            onChange={this.handleInputChange}
+            value={this.state.recipeToAdd.ingredients}
+            wrap="off"
+            rows="5"
+          />
+        </StyledInputGroup>
+        <StyledInputGroup>
+          <StyledLabel>Instructions:</StyledLabel>
+          <StyledTextarea 
+            id="instructions"
+            name="instructions"
+            onChange={this.handleInputChange}
+            value={this.state.recipeToAdd.instructions}
+            wrap="off"
+            rows="5"
+          />
+        </StyledInputGroup>
+        <StyledInputGroup>
+          <StyledSubmitButton
+            onClick={this.state.recipeToAdd.id ? () => this.updateRecipe(this.state.recipeToAdd.id) : this.addRecipe}
+          >
+            Save
+          </StyledSubmitButton>
+        </StyledInputGroup>
+      </StyledFormGroup>
     )
   }
 }
