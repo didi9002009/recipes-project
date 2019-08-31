@@ -52,6 +52,40 @@ class Ingredients extends Component {
     .catch(error => console.log('Error removing document: ', error));
   }
 
+  updateIngredientMeasurement = (item, inc=true) => {
+    const { id, measurement, label, unit } = item;
+    const newMeasurement = inc ? parseInt(measurement) + 1 : parseInt(measurement) - 1;
+    console.log(`Updating ${id}: `, newMeasurement);
+    db.collection('ingredients').doc(id).set({
+      measurement: newMeasurement >= 1 ? newMeasurement : 1,
+      label,
+      unit,
+    })
+    .then(() => console.log(`Document ${id} successfully updated!`))
+    .catch(error => console.log('Error updating: ', error))
+  }
+
+  updateIngredient = (item) => {
+    const { id, label, measurement, unit } = item;
+    console.log(`Updating ${id}: `, label, measurement, unit);
+    db.collection('ingredients').doc(id).set({
+      label,
+      measurement,
+      unit
+    })
+    .then(() => console.log(`Document ${id} successfully updated!`))
+    .catch(error => console.log('Error updating: ', error))
+    this.setState({
+      ingredientToAdd: {
+        label: '',
+        measurement: '',
+        unit: '',
+        id: '',
+      }
+    })
+    this.props.resetEditIngredient();
+  }
+
   render() {
     return (
       <IngredientsList>
@@ -66,6 +100,7 @@ class Ingredients extends Component {
             </AccordionItemHeading>
             <AccordionItemPanel>
                 <p>You have {item.measurement} {item.unit}.</p>
+                <p><button onClick={() => this.updateIngredientMeasurement(item)}>+</button> / <button onClick={() => this.updateIngredientMeasurement(item, false)}>-</button></p>
                 <JustifiedRow>
                   <EditButton onClick={() => this.editIngredient(item.id)}>Edit</EditButton>&nbsp;
                   <DeleteButton onClick={() => this.deleteIngredient(item.id)}>Delete</DeleteButton>
