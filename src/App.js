@@ -6,6 +6,7 @@ import AddIngredient from './components/AddIngredient';
 import Ingredients from './components/Ingredients';
 import Recipes from './components/Recipes';
 import Home from './components/Home';
+import { HomeContainer } from './components/styles/Views';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -17,10 +18,10 @@ class App extends Component {
   render() {
     return (
       <>
-      <BindKeyboardSwipeableViews enableMouseEvents>
-        <div key={0} style={{...styles.slide, ...styles.slide0}}>
+      <BindKeyboardSwipeableViews enableMouseEvents animateHeight>
+        <HomeContainer key={0}>
           <Home />
-        </div>
+        </HomeContainer>
         <div key={1} style={{...styles.slide, ...styles.slide1}}>
           <Ingredients setTargetIngredient={this.setTargetIngredient} />
         </div>
@@ -41,7 +42,7 @@ const styles = {
   slide: {
     padding: '15em',
     minHeight: '100vh',
-    color: '#FFF',
+    backgroundColor: '#F3C677',
   },
   slide1: {
     background: 'red',
