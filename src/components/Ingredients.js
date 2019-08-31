@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
 import db from '../firebase';
 
 class Ingredients extends Component {
@@ -39,12 +46,22 @@ class Ingredients extends Component {
   render() {
     return (
       <div className="ingredients">
-        <h1>Current Ingredients</h1>
-        <ul>
+        <h1>My Pantry</h1>
+        <Accordion>
         { this.state.ingredients.map(item => (
-          <li key={item.id}>{item.measurement} {item.unit} {item.label} | <button onClick={() => this.deleteIngredient(item.id)}>Delete</button> | <button onClick={() => this.editIngredient(item.id)}>Edit</button></li>
+          <AccordionItem key={item.id}>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                {item.label}
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+                Currently: {item.measurement} {item.unit}<br />
+                <button onClick={() => this.deleteIngredient(item.id)}>Delete</button> | <button onClick={() => this.editIngredient(item.id)}>Edit</button>
+            </AccordionItemPanel>
+          </AccordionItem>
         ))}
-        </ul>
+        </Accordion>
       </div>
     );
   }

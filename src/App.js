@@ -6,7 +6,7 @@ import AddIngredient from './components/AddIngredient';
 import Ingredients from './components/Ingredients';
 import Recipes from './components/Recipes';
 import Home from './components/Home';
-import { HomeContainer } from './components/styles/Views';
+import { HomeContainer, IngredientsList } from './components/styles/Views';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -22,9 +22,9 @@ class App extends Component {
         <HomeContainer key={0}>
           <Home />
         </HomeContainer>
-        <div key={1} style={{...styles.slide, ...styles.slide1}}>
+        <IngredientsList key={1}>
           <Ingredients setTargetIngredient={this.setTargetIngredient} />
-        </div>
+        </IngredientsList>
         <div key={2} style={{...styles.slide, ...styles.slide2}}>
           <Recipes />
         </div>
