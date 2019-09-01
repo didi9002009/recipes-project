@@ -8,7 +8,7 @@ import {
 } from 'react-accessible-accordion';
 import db from '../firebase';
 import { IngredientsList, JustifiedRow } from './styles/Views';
-import { AddButton, DeleteButton, EditButton } from './styles/Buttons';
+import { AddButton, DeleteButton, EditButton, MathButton } from './styles/Buttons';
 
 class Ingredients extends Component {
   state = {
@@ -99,8 +99,11 @@ class Ingredients extends Component {
               </AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel>
-                <p>You have {item.measurement} {item.unit}.</p>
-                <p><button onClick={() => this.updateIngredientMeasurement(item)}>+</button> / <button onClick={() => this.updateIngredientMeasurement(item, false)}>-</button></p>
+                <p>
+                  You have {item.measurement} {item.unit}.&nbsp;
+                  <MathButton onClick={() => this.updateIngredientMeasurement(item, false)}>-</MathButton>&nbsp;
+                  <MathButton onClick={() => this.updateIngredientMeasurement(item)}>+</MathButton>
+                </p>
                 <JustifiedRow>
                   <EditButton onClick={() => this.editIngredient(item.id)}>Edit</EditButton>&nbsp;
                   <DeleteButton onClick={() => this.deleteIngredient(item.id)}>Delete</DeleteButton>

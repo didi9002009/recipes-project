@@ -41,7 +41,6 @@ export const IngredientsList = styled.div`
     }
   }
   .accordion__heading {
-    text-transform: lowercase;
     padding: 1rem 0;
     font-size: 1.2rem;
     [aria-expanded="true"] {

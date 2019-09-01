@@ -42,3 +42,14 @@ export const CloseButton = styled.button`
   top: 10px;
   right: 10px;
 `;
+
+export const MathButton = styled.button`
+  font-family: "Roboto Mono";
+  font-size: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: #1E1B18;
+  color: #FFFAFF;
+  border: none;
+  border-radius: 2rem;
+`;

@@ -95,7 +95,7 @@ class AddRecipe extends Component {
             onChange={this.handleInputChange}
             value={this.state.recipeToAdd.ingredients}
             wrap="off"
-            rows="5"
+            rows="3"
           />
         </StyledInputGroup>
         <StyledInputGroup>
@@ -106,7 +106,7 @@ class AddRecipe extends Component {
             onChange={this.handleInputChange}
             value={this.state.recipeToAdd.instructions}
             wrap="off"
-            rows="5"
+            rows="3"
           />
         </StyledInputGroup>
         <StyledInputGroup>
