@@ -10,6 +10,7 @@ import Recipes from './components/Recipes';
 import Home from './components/Home';
 import { HomeContainer, IngredientsContainer, RecipesContainer } from './components/styles/Views';
 import { CloseButton } from './components/styles/Buttons';
+import { TabsContainer, Tab } from './components/styles/Nav';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -39,6 +40,7 @@ const StyledModal = styled(Modal)`
 
 class Dashboard extends Component {
   state = {
+    index: 0,
     targetIngredient: null,
     isModalOpen: false,
     isRecipeModal: false,
@@ -69,10 +71,27 @@ class Dashboard extends Component {
     })
   }
 
+  handleChange = (event, value) => {
+    this.setState({
+      index: value,
+    })
+  }
+
+  handleChangeIndex = (index) => {
+    this.setState({
+      index,
+    })
+  }
+
   render() {
     return (
       <>
-      <BindKeyboardSwipeableViews enableMouseEvents animateHeight>
+      <TabsContainer>
+        <Tab onClick={(e) => this.handleChange(e, 0)} active={this.state.index === 0}>Home</Tab>
+        <Tab onClick={(e) => this.handleChange(e, 1)} active={this.state.index === 1}>Pantry</Tab>
+        <Tab onClick={(e) => this.handleChange(e, 2)} active={this.state.index === 2}>Recipes</Tab>
+      </TabsContainer>
+      <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={this.state.index} onChangeIndex={this.handleChangeIndex}>
         <HomeContainer key={0}>
           <Home openModal={this.openModal} closeModal={this.closeModal} />
         </HomeContainer>

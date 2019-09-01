@@ -21,6 +21,7 @@ export const IngredientsContainer = styled.div`
   width: 100vw;
   background-color: #FFFAFF;
   color: #1E1B18;
+  padding-top: 100px;
 `;
 
 export const RecipesContainer = styled(IngredientsContainer)``;

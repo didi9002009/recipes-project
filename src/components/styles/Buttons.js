@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const HomeButton = styled.button`
+  width: 80%;
   background-color: ${props => props.blue ? '#3E92CC' : '#D8315B'};
   color: #FFFAFF;
   font-family: "Roboto Mono";
