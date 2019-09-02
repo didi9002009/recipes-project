@@ -1,33 +1,36 @@
 import React, { Component } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 class LoginForm extends Component {
-  state = {
-    email: '',
-    password: '',
-  }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    if (this.state.email && this.state.password) {
-      this.props.signIn(this.state.email, this.state.password);
-    }
+  validate = (values) => {
+    let errors = {};
+    if (!values.email) errors.email = "Email is required";
+    if (!values.password) errors.password = "Password is required";
+    return errors;
   }
 
   render() {
     return (
-      <form>
-        <label htmlFor="email">Email:</label><br />
-        <input type="email" name="email" value={this.state.email} onChange={this.handleChange} /><br />
-        <label htmlFor="password">Password:</label><br />
-        <input type="password" name="password" value={this.state.password} onChange={this.handleChange}/><br />
-        <button onClick={this.handleSubmit}>Sign in!</button>
-      </form>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validate={values => this.validate(values)}
+        onSubmit={(values, { setSubmitting }) => {
+          this.props.signIn(values.email, values.password);
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <label htmlFor="email">Email:</label><br />
+            <Field type="email" name="email" /><br />
+            <ErrorMessage name="email" component="div" />
+            <label htmlFor="password">Password:</label><br />
+            <Field type="password" name="password" /><br />
+            <ErrorMessage name="password" component="div" />
+            <button type="submit" disabled={isSubmitting}>Log In</button>
+          </Form>
+        )}
+      </Formik>
     )
   }
 }

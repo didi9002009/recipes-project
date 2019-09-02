@@ -184,7 +184,7 @@ class Dashboard extends Component {
 
   signOut = () => auth.signOut();
 
-  handleChange = (event, value) => {
+  handleChange = (_, value) => {
     this.setState({
       index: value,
     })
