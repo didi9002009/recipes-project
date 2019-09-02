@@ -11,6 +11,7 @@ import Recipes from './components/Recipes';
 import Home from './components/Home';
 import { CloseButton } from './components/styles/Buttons';
 import Nav from './components/Nav';
+import Meals from './components/Meals';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -50,22 +51,6 @@ class Dashboard extends Component {
   }
 
   componentDidMount = () => {
-    db.collection('recipes').onSnapshot(snapshot => {
-      let recipes = snapshot.docs;
-      let newState = [];
-      for (let item in recipes) {
-        const recipe = {
-          ...recipes[item].data(),
-          id: recipes[item].ref.id,
-        }
-        console.log('recipe: ', recipe)
-        newState.push(recipe);
-      }
-      this.setState({
-        recipes: newState,
-      })
-    });
-
     db.collection('ingredients').onSnapshot(snapshot => {
       let ingredients = snapshot.docs;
       let newState = [];
@@ -80,6 +65,47 @@ class Dashboard extends Component {
       this.setState({
         ingredients: newState,
       });
+    });
+    db.collection('recipes').onSnapshot(snapshot => {
+      let recipes = snapshot.docs;
+      let newState = [];
+      for (let item in recipes) {
+        const recipe = {
+          ...recipes[item].data(),
+          id: recipes[item].ref.id,
+        }
+        console.log('recipe: ', recipe)
+        newState.push(recipe);
+      }
+      this.setState({
+        recipes: newState,
+      }, () => this.matchIngredients());
+    });
+  }
+
+  matchIngredients = () => {
+    const ingredientNames = this.state.ingredients.map(ing => ing.label.toLowerCase());
+    const adjustedRecipes = [...this.state.recipes];
+    adjustedRecipes.map(recipe => {
+      const adjustedRecipeIngredients = {};
+      const ingredientsNeeded = [];
+      let matchCount = 0;
+      recipe.ingredients.forEach(item => {
+        if (ingredientNames.includes(item.toLowerCase())) {
+          adjustedRecipeIngredients[item.toLowerCase()] = true;
+          matchCount++;
+        } else {
+          adjustedRecipeIngredients[item.toLowerCase()] = false;
+          ingredientsNeeded.push(item.toLowerCase());
+        }
+      });
+      recipe.matchPercent = matchCount / recipe.ingredients.length;
+      recipe.ingredients = adjustedRecipeIngredients;
+      recipe.ingredientsNeeded = ingredientsNeeded;
+      return recipe;
+    });
+    this.setState({
+      recipes: adjustedRecipes,
     });
   }
 
@@ -186,7 +212,10 @@ class Dashboard extends Component {
         <Recipes
           openModal={this.openModal}
           recipes={this.state.recipes}
-          key={2}/>
+          key={2} />
+        <Meals
+          recipes={this.state.recipes} 
+          key={3} />
       </BindKeyboardSwipeableViews>
 
       <StyledModal
