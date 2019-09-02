@@ -1,10 +1,11 @@
 import React from 'react';
 import { CardStyles } from './styles/Cards';
 
-const Card = ({ item }) => (
+const Card = ({ item, matchCard }) => (
   <CardStyles>
     <h2>{item.title}</h2>
-    <p>{item.instructions}</p>
+    { !matchCard && <p>{item.instructions}</p> }
+    { matchCard && <p>{Math.round(item.matchPercent * 100)}% of ingredients in pantry</p>}
   </CardStyles>
 );
 

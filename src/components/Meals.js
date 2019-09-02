@@ -1,13 +1,17 @@
 import React from 'react';
 import { RecipesContainer } from './styles/Views';
+import { CardsContainer } from './styles/Cards';
+import Card from './Card'
 
 const Meals = ({ recipes }) => (
   <RecipesContainer>
     <div>
     <h1>Meals!</h1>
-    { recipes.sort((a, b) => b.matchPercent - a.matchPercent).map(recipe => (
-      <p>{recipe.title}, {Math.round(recipe.matchPercent * 100)}% of ingredients in pantry</p>
-    ))}
+    <CardsContainer>
+      { recipes.sort((a, b) => b.matchPercent - a.matchPercent).map(recipe => (
+        <Card item={recipe} matchCard />
+      ))}
+    </CardsContainer>
     </div>
   </RecipesContainer>
 );
