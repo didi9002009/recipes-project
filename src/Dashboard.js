@@ -3,6 +3,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import db from './firebase.js';
 import AddRecipe from './components/AddRecipe';
 import AddIngredient from './components/AddIngredient';
 import Ingredients from './components/Ingredients';
@@ -44,14 +45,98 @@ class Dashboard extends Component {
     isModalOpen: false,
     isRecipeModal: false,
     isIngredientModal: false,
+    recipes: [],
+    ingredients: [],
   }
 
-  setIngredientToEdit = (targetIngredient) => {
+  componentDidMount = () => {
+    db.collection('recipes').onSnapshot(snapshot => {
+      let recipes = snapshot.docs;
+      let newState = [];
+      for (let item in recipes) {
+        const recipe = {
+          ...recipes[item].data(),
+          id: recipes[item].ref.id,
+        }
+        console.log('recipe: ', recipe)
+        newState.push(recipe);
+      }
+      this.setState({
+        recipes: newState,
+      })
+    });
+
+    db.collection('ingredients').onSnapshot(snapshot => {
+      let ingredients = snapshot.docs;
+      let newState = [];
+      for (let item in ingredients) {
+        const ingredient = {
+          ...ingredients[item].data(),
+          id: ingredients[item].ref.id,
+        };
+        console.log('ingredient: ', ingredient)
+        newState.push(ingredient);
+      }
+      this.setState({
+        ingredients: newState,
+      });
+    });
+  }
+
+  editIngredient = (id) => {
+    const targetIngredient = this.state.ingredients.find(item => item.id === id);
     this.setState({
       targetIngredient,
       isModalOpen: true,
       isIngredientModal: true,
     });
+  }
+
+  resetEditIngredient = () => {
+    this.setState({
+      targetIngredient: null,
+    });
+  }
+
+  deleteIngredient = (id) => {
+    console.log('Deleting: ', id);
+    db.collection('ingredients').doc(id).delete()
+    .then(() => console.log(`Document ${id} successfully deleted!`))
+    .catch(error => console.log('Error removing document: ', error));
+  }
+
+  updateIngredientMeasurement = (item, inc=true) => {
+    const { id, measurement, label, unit } = item;
+    const newMeasurement = inc ? parseInt(measurement) + 1 : parseInt(measurement) - 1;
+    console.log(`Updating ${id}: `, newMeasurement);
+    db.collection('ingredients').doc(id).set({
+      measurement: newMeasurement >= 1 ? newMeasurement : 1,
+      label,
+      unit,
+    })
+    .then(() => console.log(`Document ${id} successfully updated!`))
+    .catch(error => console.log('Error updating: ', error))
+  }
+
+  updateIngredient = (item) => {
+    const { id, label, measurement, unit } = item;
+    console.log(`Updating ${id}: `, label, measurement, unit);
+    db.collection('ingredients').doc(id).set({
+      label,
+      measurement,
+      unit
+    })
+    .then(() => console.log(`Document ${id} successfully updated!`))
+    .catch(error => console.log('Error updating: ', error))
+    this.setState({
+      ingredientToAdd: {
+        label: '',
+        measurement: '',
+        unit: '',
+        id: '',
+      }
+    })
+    this.props.resetEditIngredient();
   }
 
   openModal = (isRecipe=true) => {
@@ -88,11 +173,22 @@ class Dashboard extends Component {
       <Nav handleChange={this.handleChange} index={this.state.index} />
 
       <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-        <Home openModal={this.openModal} closeModal={this.closeModal} key={0} />
-        <Ingredients setIngredientToEdit={this.setIngredientToEdit} openModal={this.openModal} key={1} />
-        <Recipes openModal={this.openModal} key={2}/>
+        <Home
+          openModal={this.openModal}
+          key={0} />
+        <Ingredients
+          openModal={this.openModal}
+          ingredients={this.state.ingredients}
+          updateIngredientMeasurement={this.updateIngredientMeasurement}
+          editIngredient={this.editIngredient}
+          deleteIngredient={this.deleteIngredient}
+          key={1} />
+        <Recipes
+          openModal={this.openModal}
+          recipes={this.state.recipes}
+          key={2}/>
       </BindKeyboardSwipeableViews>
-      
+
       <StyledModal
         isOpen={this.state.isModalOpen}
         onRequestClose={this.closeModal}

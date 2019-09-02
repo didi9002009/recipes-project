@@ -6,19 +6,19 @@ import { TabsContainer, Tab } from './styles/Nav';
 const Nav = ({ handleChange, index }) => (
   <TabsContainer>
     <Tab active={index === 0}>
-      <button onClick={(e) => handleChange(e, 0)}><FontAwesomeIcon icon={faHome} /></button>
+      <button onClick={(e) => handleChange(e, 0)}><FontAwesomeIcon icon={faHome} size="2x" /></button>
     </Tab>
     <Tab active={index === 1}>
-      <button onClick={(e) => handleChange(e, 1)}><FontAwesomeIcon icon={faAppleAlt} /></button>
+      <button onClick={(e) => handleChange(e, 1)}><FontAwesomeIcon icon={faAppleAlt} size="2x" /></button>
     </Tab>
     <Tab active={index === 2}>
-      <button onClick={(e) => handleChange(e, 2)}><FontAwesomeIcon icon={faBook} /></button>
+      <button onClick={(e) => handleChange(e, 2)}><FontAwesomeIcon icon={faBook} size="2x" /></button>
     </Tab>
     <Tab active={index === 3}>
-      <button onClick={(e) => handleChange(e, 3)}><FontAwesomeIcon icon={faMagic} /></button>
+      <button onClick={(e) => handleChange(e, 3)}><FontAwesomeIcon icon={faMagic} size="2x" /></button>
     </Tab>
     <Tab active={index === 4}>
-      <button onClick={(e) => handleChange(e, 4)}><FontAwesomeIcon icon={faList} /></button>
+      <button onClick={(e) => handleChange(e, 4)}><FontAwesomeIcon icon={faList} size="2x" /></button>
     </Tab>
   </TabsContainer>
 );

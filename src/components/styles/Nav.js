@@ -22,8 +22,8 @@ export const Tab = styled.div`
   align-items: center;
   button {
     background: ${props => props.active ? 'var(--red)' : 'transparent'};
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: ${props => props.active ? '2px solid var(--red)' : '2px solid var(--light-gray)'};
     transition: background 200ms ease-in,

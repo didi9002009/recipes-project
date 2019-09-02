@@ -15,6 +15,7 @@
     "react-scripts": "3.0.1",
     "react-swipeable-views": "^0.13.3",
     "styled-components": "^4.3.2",
+    "typeface-roboto": "0.0.75",
     "typeface-roboto-mono": "0.0.75"
   },
   "scripts": {

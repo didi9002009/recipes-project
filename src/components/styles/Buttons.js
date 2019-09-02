@@ -3,9 +3,8 @@ import styled from 'styled-components';
 export const HomeButton = styled.button`
   width: 80%;
   background-color: var(--yellow);
-  font-family: "Roboto Mono";
   font-weight: normal;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   border-radius: 2rem;
   padding: 0.66rem 1rem;
   border: none;
@@ -25,7 +24,6 @@ export const DeleteButton = styled(HomeButton)`
 `;
 
 export const EditButton = styled.button`
-  font-family: "Roboto Mono";
   font-size: 1rem;
   background: none;
   border: none;
@@ -47,7 +45,6 @@ export const CloseButton = styled.button`
 `;
 
 export const MathButton = styled.button`
-  font-family: "Roboto Mono";
   font-size: 1rem;
   width: 2rem;
   height: 2rem;
