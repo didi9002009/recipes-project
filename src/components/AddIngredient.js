@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { StyledFormGroup, StyledInputGroup, StyledInput, StyledLabel, StyledSubmitButton } from './styles/Forms';
 
 class AddIngredient extends Component {
@@ -31,12 +31,14 @@ class AddIngredient extends Component {
   }
 
   addIngredient = () => {
+    const { uid } = auth.currentUser;
     const { label, measurement, unit } = this.state.ingredientToAdd;
     console.log('Adding: ', label, measurement, unit)
     db.collection('ingredients').add({
       label,
       measurement,
-      unit
+      unit,
+      uid
     })
     .then(docRef => {
       console.log('Document written with ID: ', docRef);
@@ -52,12 +54,14 @@ class AddIngredient extends Component {
   }
 
   updateIngredient = (id) => {
+    const { uid } = auth.currentUser;
     const { label, measurement, unit } = this.state.ingredientToAdd;
     console.log(`Updating ${id}: `, label, measurement, unit);
-    db.collection('ingredients').doc(id).set({
+    db.collection('ingredients').doc(id).update({
       label,
       measurement,
-      unit
+      unit,
+      uid
     })
     .then(() => console.log(`Document ${id} successfully updated!`))
     .catch(error => console.log('Error updating: ', error))

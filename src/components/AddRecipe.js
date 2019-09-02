@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import {
   StyledFormGroup,
   StyledInputGroup,
@@ -23,6 +23,7 @@ class AddRecipe extends Component {
   }
 
   addRecipe = () => {
+    const { uid } = auth.currentUser;
     const { title, instructions, ingredients } = this.state.recipeToAdd;
     const ingredientsList = this.processIngredients(ingredients);
     console.log('Adding: ', title)
@@ -30,6 +31,7 @@ class AddRecipe extends Component {
       title,
       instructions,
       ingredients: ingredientsList,
+      uid,
     })
     .then(docRef => {
       console.log('Document written with ID: ', docRef);
@@ -46,12 +48,14 @@ class AddRecipe extends Component {
   }
 
   updateRecipe = (id) => {
+    const { uid } = auth.currentUser;
     const { title, instructions, ingredients } = this.state.recipeToAdd;
     console.log(`Updating ${id}: `, title);
-    db.collection('recipes').doc(id).set({
+    db.collection('recipes').doc(id).update({
       title,
       instructions,
       ingredients,
+      uid,
     })
     .then(() => console.log(`Document ${id} successfully updated!`))
     .catch(error => console.log('Error updating: ', error))

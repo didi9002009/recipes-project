@@ -52,7 +52,8 @@ class Dashboard extends Component {
   }
 
   componentDidMount = () => {
-    db.collection('ingredients').onSnapshot(snapshot => {
+    const { uid } = auth.currentUser;
+    db.collection('ingredients').where("uid", "==", uid).onSnapshot(snapshot => {
       let ingredients = snapshot.docs;
       let newState = [];
       for (let item in ingredients) {
@@ -65,9 +66,9 @@ class Dashboard extends Component {
       }
       this.setState({
         ingredients: newState,
-      });
+      }, () => this.matchIngredients());
     });
-    db.collection('recipes').onSnapshot(snapshot => {
+    db.collection('recipes').where("uid", "==", uid).onSnapshot(snapshot => {
       let recipes = snapshot.docs;
       let newState = [];
       for (let item in recipes) {
@@ -85,7 +86,7 @@ class Dashboard extends Component {
   }
 
   matchIngredients = () => {
-    const ingredientNames = this.state.ingredients.map(ing => ing.label.toLowerCase());
+    const ingredientNames = [...this.state.ingredients.map(ing => ing.label.toLowerCase())];
     const adjustedRecipes = [...this.state.recipes];
     adjustedRecipes.map(recipe => {
       const adjustedRecipeIngredients = {};
@@ -101,7 +102,7 @@ class Dashboard extends Component {
         }
       });
       recipe.matchPercent = matchCount / recipe.ingredients.length;
-      recipe.ingredients = adjustedRecipeIngredients;
+      recipe.adjustedRecipeIngredients = adjustedRecipeIngredients;
       recipe.ingredientsNeeded = ingredientsNeeded;
       return recipe;
     });
