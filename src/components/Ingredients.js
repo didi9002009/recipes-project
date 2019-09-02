@@ -6,9 +6,11 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from 'react-accessible-accordion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import db from '../firebase';
 import { IngredientsContainer, IngredientsList, JustifiedRow } from './styles/Views';
-import { AddButton, DeleteButton, EditButton, MathButton } from './styles/Buttons';
+import { DeleteButton, EditButton, MathButton, PlusButton } from './styles/Buttons';
 
 class Ingredients extends Component {
   state = {
@@ -90,7 +92,12 @@ class Ingredients extends Component {
     return (
       <IngredientsContainer>
         <IngredientsList>
-          <h1>My Pantry</h1>
+          <JustifiedRow>
+            <h1>My Pantry</h1>
+            <PlusButton onClick={() => this.props.openModal(false)}>
+              <FontAwesomeIcon icon={faPlus} />
+            </PlusButton>
+          </JustifiedRow>
           <Accordion allowZeroExpanded>
           { this.state.ingredients.map(item => (
             <AccordionItem key={item.id}>
@@ -113,7 +120,6 @@ class Ingredients extends Component {
             </AccordionItem>
           ))}
           </Accordion>
-          <AddButton onClick={() => this.props.openModal(false)}>+ Ingredient</AddButton>
         </IngredientsList>
       </IngredientsContainer>
     );

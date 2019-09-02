@@ -12,4 +12,7 @@ export const CardsContainer = styled.div`
   grid-column-gap: 2rem;
   grid-row-gap: 2rem;
   margin-bottom: 2rem;
+  @media screen and (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
 `;

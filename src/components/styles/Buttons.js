@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const HomeButton = styled.button`
   width: 80%;
-  background-color: ${props => props.blue ? '#3E92CC' : '#D8315B'};
-  color: #FFFAFF;
+  background-color: var(--yellow);
   font-family: "Roboto Mono";
   font-weight: normal;
   font-size: 1.5rem;
@@ -20,7 +19,8 @@ export const AddButton = styled(HomeButton)`
 
 export const DeleteButton = styled(HomeButton)`
   width: auto;
-  background-color: red;
+  background-color: var(--red);
+  color: white;
   font-size: 1rem;
 `;
 
@@ -38,7 +38,7 @@ export const CloseButton = styled.button`
   width: 40px;
   height: 40px;
   background-color: transparent;
-  color: #FFFAFF;
+  color: white;
   font-size: 1.8rem;
   border: none;
   position: absolute;
@@ -51,8 +51,19 @@ export const MathButton = styled.button`
   font-size: 1rem;
   width: 2rem;
   height: 2rem;
-  background-color: #1E1B18;
-  color: #FFFAFF;
+  background-color: var(--dark-gray);
+  color: white;
   border: none;
   border-radius: 2rem;
+`;
+
+export const PlusButton = styled.button`
+  border: none;
+  background: var(--red);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  svg, path {
+    fill: white;
+  }
 `;

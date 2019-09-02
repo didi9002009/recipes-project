@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import db from '../firebase';
-import { RecipesContainer, RecipesList } from './styles/Views';
-import { AddButton } from './styles/Buttons';
+import { RecipesContainer, RecipesList, JustifiedRow } from './styles/Views';
+import { AddButton, PlusButton } from './styles/Buttons';
 import { CardsContainer } from './styles/Cards';
 import Card from './Card'
 
@@ -32,11 +34,15 @@ class Recipes extends Component {
     return (
       <RecipesContainer>
         <RecipesList>
-          <h1>My Recipes</h1>
+          <JustifiedRow>
+            <h1>My Recipes</h1>
+            <PlusButton onClick={() => this.props.openModal(true)}>
+              <FontAwesomeIcon icon={faPlus} />
+            </PlusButton>
+          </JustifiedRow>
           <CardsContainer>
             { this.state.recipes.map(item => <Card item={item} />)}
           </CardsContainer>
-          <AddButton onClick={() => this.props.openModal(true)}>+ Recipe</AddButton>
         </RecipesList>
       </RecipesContainer>
     );

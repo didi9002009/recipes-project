@@ -8,8 +8,7 @@ export const HomeContainer = styled.div`
   max-height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #FFFAFF;
-  color: #1E1B18;
+  color: var(--dark-gray);
   text-align: center;
 `;
 
@@ -19,9 +18,7 @@ export const IngredientsContainer = styled.div`
   align-items: flex-start;
   min-height: 100vh;
   width: 100vw;
-  background-color: #FFFAFF;
-  color: #1E1B18;
-  padding-top: 100px;
+  color: var(--dark-gray);
 `;
 
 export const RecipesContainer = styled(IngredientsContainer)``;
@@ -36,7 +33,7 @@ export const IngredientsList = styled.div`
     width: 100%;
   }
   .accordion__item {
-    border-bottom: 1px solid #1E1B18;
+    border-bottom: 1px solid var(--light-gray);
     &:last-child {
       border-bottom: 0;
     }
@@ -46,6 +43,12 @@ export const IngredientsList = styled.div`
     font-size: 1.2rem;
     [aria-expanded="true"] {
       font-weight: bold;
+    }
+  }
+  .accordion__button:focus {
+    outline: none;
+    &:before {
+      outline: none;
     }
   }
   .accordion__panel {
@@ -58,6 +61,7 @@ export const RecipesList = styled(IngredientsList)`
 `;
 
 export const JustifiedRow = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
