@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router } from '@reach/router';
-import Dashboard from './Dashboard';
-import Login from './Login';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
 
 class App extends Component {
 

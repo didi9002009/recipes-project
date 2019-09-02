@@ -3,16 +3,16 @@ import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import { db } from './firebase.js';
-import { withAuth } from './withAuth';
-import AddRecipe from './components/AddRecipe';
-import AddIngredient from './components/AddIngredient';
-import Ingredients from './components/Ingredients';
-import Recipes from './components/Recipes';
-import Home from './components/Home';
-import { CloseButton } from './components/styles/Buttons';
-import Nav from './components/Nav';
-import Meals from './components/Meals';
+import { db, auth } from '../firebase.js';
+import { withAuth } from '../hocs/withAuth';
+import AddRecipe from '../components/AddRecipe';
+import AddIngredient from '../components/AddIngredient';
+import Ingredients from '../components/Ingredients';
+import Recipes from '../components/Recipes';
+import Home from '../components/Home';
+import { CloseButton } from '../components/styles/Buttons';
+import Nav from '../components/Nav';
+import Meals from '../components/Meals';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -182,6 +182,8 @@ class Dashboard extends Component {
     })
   }
 
+  signOut = () => auth.signOut();
+
   handleChange = (event, value) => {
     this.setState({
       index: value,
@@ -202,6 +204,7 @@ class Dashboard extends Component {
       <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={this.state.index} onChangeIndex={this.handleChangeIndex}>
         <Home
           openModal={this.openModal}
+          signOut={this.signOut}
           key={0} />
         <Ingredients
           openModal={this.openModal}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { navigate } from '@reach/router';
-import { auth } from './firebase';
+import { auth } from '../firebase';
 
 export const withAuth = ProtectedComponent => {
   return class AuthComponent extends Component {
