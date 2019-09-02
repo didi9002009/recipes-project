@@ -3,7 +3,8 @@ import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import db from './firebase.js';
+import { db } from './firebase.js';
+import { withAuth } from './withAuth';
 import AddRecipe from './components/AddRecipe';
 import AddIngredient from './components/AddIngredient';
 import Ingredients from './components/Ingredients';
@@ -231,4 +232,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default withAuth(Dashboard);

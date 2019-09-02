@@ -9,7 +9,7 @@ const Meals = ({ recipes }) => (
     <h1>Meals!</h1>
     <CardsContainer>
       { recipes.sort((a, b) => b.matchPercent - a.matchPercent).map(recipe => (
-        <Card item={recipe} matchCard />
+        <Card item={recipe} matchCard key={recipe.id} />
       ))}
     </CardsContainer>
     </div>

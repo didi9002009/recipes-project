@@ -16,7 +16,7 @@ const Recipes = ({ recipes, openModal }) => (
         </PlusButton>
       </JustifiedRow>
       <CardsContainer>
-        { recipes.map(item => <Card item={item} />)}
+        { recipes.map(item => <Card item={item} key={item.id} />)}
       </CardsContainer>
     </RecipesList>
   </RecipesContainer>

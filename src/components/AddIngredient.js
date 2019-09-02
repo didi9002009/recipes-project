@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import db from '../firebase';
+import { db } from '../firebase';
 import { StyledFormGroup, StyledInputGroup, StyledInput, StyledLabel, StyledSubmitButton } from './styles/Forms';
 
 class AddIngredient extends Component {
