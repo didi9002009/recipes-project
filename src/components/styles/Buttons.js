@@ -14,10 +14,12 @@ export const HomeButton = styled.button`
 `;
 
 export const AddButton = styled(HomeButton)`
+  width: auto;
   margin: 1rem auto;
 `;
 
 export const DeleteButton = styled(HomeButton)`
+  width: auto;
   background-color: red;
   font-size: 1rem;
 `;

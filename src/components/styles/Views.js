@@ -53,7 +53,9 @@ export const IngredientsList = styled.div`
   }
 `;
 
-export const RecipesList = styled(IngredientsList)``;
+export const RecipesList = styled(IngredientsList)`
+  max-width: 1000px;
+`;
 
 export const JustifiedRow = styled.div`
   display: flex;

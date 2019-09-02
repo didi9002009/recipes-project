@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
 import db from '../firebase';
-import { RecipesList } from './styles/Views';
+import { RecipesContainer, RecipesList } from './styles/Views';
 import { AddButton } from './styles/Buttons';
+import { CardsContainer } from './styles/Cards';
+import Card from './Card'
 
 class Recipes extends Component {
   state = {
@@ -35,24 +30,15 @@ class Recipes extends Component {
 
   render() {
     return (
-      <RecipesList>
-        <h1>My Recipes</h1>
-        <Accordion allowZeroExpanded>
-        { this.state.recipes.map(item => (
-          <AccordionItem key={item.id}>
-            <AccordionItemHeading>
-              <AccordionItemButton>
-                {item.title}
-              </AccordionItemButton>
-            </AccordionItemHeading>
-            <AccordionItemPanel>
-              {item.instructions}
-            </AccordionItemPanel>
-          </AccordionItem>
-        ))}
-        </Accordion>
-        <AddButton onClick={() => this.props.openModal(true)}>+ Recipe</AddButton>
-      </RecipesList>
+      <RecipesContainer>
+        <RecipesList>
+          <h1>My Recipes</h1>
+          <CardsContainer>
+            { this.state.recipes.map(item => <Card item={item} />)}
+          </CardsContainer>
+          <AddButton onClick={() => this.props.openModal(true)}>+ Recipe</AddButton>
+        </RecipesList>
+      </RecipesContainer>
     );
   }
 }
