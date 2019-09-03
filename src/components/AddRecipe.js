@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { db, auth } from '../firebase';
+import { db, auth, storage } from '../firebase';
 import {
   StyledFormGroup,
   StyledInputGroup,
@@ -15,7 +15,8 @@ class AddRecipe extends Component {
       title: '',
       instructions: '',
       ingredients: '',
-    }
+    },
+    imageUrl: '',
   }
 
   processIngredients = ingredients => {
@@ -77,6 +78,23 @@ class AddRecipe extends Component {
     });
   }
 
+  handleImageUpload = (event) => {
+    const { files } = event.target;
+    const file = files[0];
+    if (file) {
+      storage.ref().child(`images/${file.name}`).put(file)
+      .then(snapshot => {
+        snapshot.ref.getDownloadURL().then(downloadURL => {
+          console.log('File available at', downloadURL);
+          this.setState({
+            imageUrl: downloadURL,
+          });
+        })
+      })
+      .catch(error => console.log(error))
+    }
+  }
+
   render() {
     return (
       <StyledFormGroup>
@@ -90,6 +108,15 @@ class AddRecipe extends Component {
             onChange={this.handleInputChange}
             value={this.state.recipeToAdd.title}
           />
+        <StyledInputGroup>
+          <StyledLabel>Image</StyledLabel>
+          <StyledInput 
+            type="file"
+            id="file"
+            name="file"
+            onChange={this.handleImageUpload}
+          />
+        </StyledInputGroup>
         </StyledInputGroup>
         <StyledInputGroup>
           <StyledLabel>Ingredients (on separate lines)</StyledLabel>

@@ -10,7 +10,7 @@ const Recipes = ({ recipes, openModal }) => (
   <RecipesContainer>
     <RecipesList>
       <JustifiedRow>
-        <h1>My Recipes</h1>
+        <h1>Your favorite recipes</h1>
         <PlusButton onClick={() => openModal(true)}>
           <FontAwesomeIcon icon={faPlus} />
         </PlusButton>

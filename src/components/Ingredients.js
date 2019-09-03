@@ -21,7 +21,7 @@ const Ingredients = ({
   <IngredientsContainer>
     <IngredientsList>
       <JustifiedRow>
-        <h1>My Pantry</h1>
+        <h1>Your pantry</h1>
         <PlusButton onClick={() => openModal(false)}>
           <FontAwesomeIcon icon={faPlus} />
         </PlusButton>

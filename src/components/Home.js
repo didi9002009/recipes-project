@@ -5,7 +5,7 @@ import { HomeContainer } from './styles/Views';
 const Home = ({ openModal, signOut }) => (
   <HomeContainer>
     <div>
-      <h1>Welcome, User!</h1>
+      <h1>Welcome!</h1>
       <HomeButton onClick={() => openModal(true)}>+ Recipe</HomeButton><br />
       <HomeButton onClick={() => openModal(false)}>+ Ingredient</HomeButton><br />
       <HomeButton blue>What Should I Make?</HomeButton><br />

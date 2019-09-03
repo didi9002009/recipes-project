@@ -6,7 +6,7 @@ import Card from './Card'
 const Meals = ({ recipes }) => (
   <RecipesContainer>
     <div>
-    <h1>Meals!</h1>
+    <h1>You can make...</h1>
     <CardsContainer>
       { recipes.sort((a, b) => b.matchPercent - a.matchPercent).map(recipe => (
         <Card item={recipe} matchCard key={recipe.id} />
