@@ -1,31 +1,37 @@
 import React, { Component } from 'react';
-import { db, auth, storage } from '../firebase';
+import { db, auth } from '../firebase';
 import {
   StyledFormGroup,
   StyledInputGroup,
-  StyledInput,
-  StyledTextarea,
   StyledLabel,
   StyledSubmitButton,
 } from './styles/Forms';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 class AddRecipe extends Component {
   state = {
-    recipeToAdd: {
-      title: '',
-      instructions: '',
-      ingredients: '',
-    },
     imageUrl: '',
+    largeImageUrl: '',
+    recipeToEdit: null,
+  }
+
+  componentDidMount = () => {
+    if (this.props.recipeToEdit) this.setState({ recipeToEdit: this.props.recipeToEdit });
   }
 
   processIngredients = ingredients => {
     return ingredients.split(/\r?\n/);
   }
 
-  addRecipe = () => {
+  addOrUpdateRecipe = (formValues) => {
+    if (this.state.recipeToEdit) this.addRecipe(formValues);
+    if (!this.state.recipeToEdit) this.updateRecipe(this.state.recipeToEdit.id, formValues);
+  }
+
+  addRecipe = (formValues) => {
     const { uid } = auth.currentUser;
-    const { title, instructions, ingredients } = this.state.recipeToAdd;
+    const { title, instructions, ingredients } = formValues;
+    const { imageUrl, largeImageUrl } = this.state;
     const ingredientsList = this.processIngredients(ingredients);
     console.log('Adding: ', title)
     db.collection('recipes').add({
@@ -33,24 +39,19 @@ class AddRecipe extends Component {
       instructions,
       ingredients: ingredientsList,
       uid,
+      imageUrl,
+      largeImageUrl,
     })
     .then(docRef => {
       console.log('Document written with ID: ', docRef);
-      this.setState({
-        recipeToAdd: {
-          title: '',
-          instructions: '',
-          ingredients: '',
-          id: ''
-        }
-      });
+      this.props.closeModal();
     })
     .catch(error => console.log('Error adding document: ', error));
   }
 
-  updateRecipe = (id) => {
+  updateRecipe = (id, formValues) => {
     const { uid } = auth.currentUser;
-    const { title, instructions, ingredients } = this.state.recipeToAdd;
+    const { title, instructions, ingredients } = formValues;
     console.log(`Updating ${id}: `, title);
     db.collection('recipes').doc(id).update({
       title,
@@ -58,95 +59,90 @@ class AddRecipe extends Component {
       ingredients,
       uid,
     })
-    .then(() => console.log(`Document ${id} successfully updated!`))
-    .catch(error => console.log('Error updating: ', error))
-    this.setState({
-      recipeToAdd: {
-        title: '',
-        instructions: '',
-        ingredients: [],
-      }
+    .then(() => {
+      console.log(`Document ${id} successfully updated!`);
+      this.props.closeModal();
     })
+    .catch(error => console.log('Error updating: ', error))
   }
 
-  handleInputChange = (event) => {
-    this.setState({
-      recipeToAdd: {
-        ...this.state.recipeToAdd,
-        [event.target.name]: event.target.value,
-      }
+  handleImageUpload = async (e) => {
+    const { files } = e.target;
+    const data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'recipes');
+
+    const res = await fetch(process.env.CLOUDINARY_UPLOAD_URL, {
+      method: 'POST',
+      body: data,
     });
+    const file = await res.json();
+    this.setState({
+      imageUrl: file.secure_url,
+      largeImageUrl: file.eager[0].secure_url,
+    }, () => console.log('upload complete!'));
   }
 
-  handleImageUpload = (event) => {
-    const { files } = event.target;
-    const file = files[0];
-    if (file) {
-      storage.ref().child(`images/${file.name}`).put(file)
-      .then(snapshot => {
-        snapshot.ref.getDownloadURL().then(downloadURL => {
-          console.log('File available at', downloadURL);
-          this.setState({
-            imageUrl: downloadURL,
-          });
-        })
-      })
-      .catch(error => console.log(error))
-    }
+  validate = (values) => {
+    let errors = {};
+    if (!values.title) errors.title = "Title is required";
+    if (!values.instructions) errors.instructions = "Instructions are required";
+    if (!values.ingredients) errors.ingredients = "Ingredients are required";
+    return errors;
   }
 
   render() {
+    const { recipeToEdit } = this.state;
     return (
       <StyledFormGroup>
         <h2>Add Recipe</h2>
-        <StyledInputGroup>
-          <StyledLabel>Title</StyledLabel>
-          <StyledInput 
-            type="text"
-            id="title"
-            name="title"
-            onChange={this.handleInputChange}
-            value={this.state.recipeToAdd.title}
-          />
-        <StyledInputGroup>
-          <StyledLabel>Image</StyledLabel>
-          <StyledInput 
-            type="file"
-            id="file"
-            name="file"
-            onChange={this.handleImageUpload}
-          />
-        </StyledInputGroup>
-        </StyledInputGroup>
-        <StyledInputGroup>
-          <StyledLabel>Ingredients (on separate lines)</StyledLabel>
-          <StyledTextarea 
-            id="ingredients"
-            name="ingredients"
-            onChange={this.handleInputChange}
-            value={this.state.recipeToAdd.ingredients}
-            wrap="off"
-            rows="3"
-          />
-        </StyledInputGroup>
-        <StyledInputGroup>
-          <StyledLabel>Instructions:</StyledLabel>
-          <StyledTextarea 
-            id="instructions"
-            name="instructions"
-            onChange={this.handleInputChange}
-            value={this.state.recipeToAdd.instructions}
-            wrap="off"
-            rows="3"
-          />
-        </StyledInputGroup>
-        <StyledInputGroup>
-          <StyledSubmitButton
-            onClick={this.state.recipeToAdd.id ? () => this.updateRecipe(this.state.recipeToAdd.id) : this.addRecipe}
-          >
-            Save
-          </StyledSubmitButton>
-        </StyledInputGroup>
+        <Formik
+          initialValues={{
+            title: recipeToEdit ? recipeToEdit.title : '',
+            instructions: recipeToEdit ? recipeToEdit.instructions : '',
+            ingredients: recipeToEdit ? recipeToEdit.ingredients.join("\n") : '',
+            file: '',
+          }}
+          validate={values => this.validate(values)}
+          onSubmit={(values, { setSubmitting }) => {
+            this.addOrUpdateRecipe(values);
+          }}
+        >
+          {({ isSubmitting, setFieldValue }) => (
+            <Form>
+              <StyledInputGroup>
+                <StyledLabel htmlFor="title">Title</StyledLabel>
+                <Field type="text" id="title" name="title" />
+                <ErrorMessage name="title" component="div" />
+              </StyledInputGroup>
+
+              <StyledInputGroup>
+                <StyledLabel htmlFor="file">Upload an Image</StyledLabel>
+                <Field type="file" id="file" name="file" onChange={(e) => {
+                  this.handleImageUpload(e);
+                  setFieldValue('file', e.target.value, false);
+                }} />
+                <ErrorMessage name="file" component="div" />
+              </StyledInputGroup>
+
+              <StyledInputGroup>
+                <StyledLabel htmlFor="ingredients">Ingredients (on separate lines)</StyledLabel>
+                <Field component="textarea" id="ingredients" name="ingredients" rows="3" />
+                <ErrorMessage name="ingredients" component="div" />
+              </StyledInputGroup>
+
+              <StyledInputGroup>
+                <StyledLabel htmlFor="instructions">Instructions</StyledLabel>
+                <Field component="textarea" id="instructions" name="instructions" rows="3" />
+                <ErrorMessage name="instructions" component="div" />
+              </StyledInputGroup>
+              
+              <StyledInputGroup>
+                <StyledSubmitButton type="submit" disabled={isSubmitting}>Save</StyledSubmitButton>
+              </StyledInputGroup>
+            </Form>
+          )}
+        </Formik>
       </StyledFormGroup>
     )
   }

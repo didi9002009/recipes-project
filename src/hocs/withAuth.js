@@ -11,7 +11,6 @@ export const withAuth = ProtectedComponent => {
     componentDidMount = () => {
       auth.onAuthStateChanged(user => {
         if (user) {
-          console.log(user)
           this.setState({
             userId: user.uid,
           }, () => navigate('/'));

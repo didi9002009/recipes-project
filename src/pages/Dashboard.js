@@ -61,7 +61,6 @@ class Dashboard extends Component {
           ...ingredients[item].data(),
           id: ingredients[item].ref.id,
         };
-        console.log('ingredient: ', ingredient)
         newState.push(ingredient);
       }
       this.setState({
@@ -76,7 +75,6 @@ class Dashboard extends Component {
           ...recipes[item].data(),
           id: recipes[item].ref.id,
         }
-        console.log('recipe: ', recipe)
         newState.push(recipe);
       }
       this.setState({
@@ -127,7 +125,6 @@ class Dashboard extends Component {
   }
 
   deleteIngredient = (id) => {
-    console.log('Deleting: ', id);
     db.collection('ingredients').doc(id).delete()
     .then(() => console.log(`Document ${id} successfully deleted!`))
     .catch(error => console.log('Error removing document: ', error));
@@ -136,7 +133,6 @@ class Dashboard extends Component {
   updateIngredientMeasurement = (item, inc=true) => {
     const { id, measurement, label, unit } = item;
     const newMeasurement = inc ? parseInt(measurement) + 1 : parseInt(measurement) - 1;
-    console.log(`Updating ${id}: `, newMeasurement);
     db.collection('ingredients').doc(id).set({
       measurement: newMeasurement >= 1 ? newMeasurement : 1,
       label,
@@ -148,7 +144,6 @@ class Dashboard extends Component {
 
   updateIngredient = (item) => {
     const { id, label, measurement, unit } = item;
-    console.log(`Updating ${id}: `, label, measurement, unit);
     db.collection('ingredients').doc(id).set({
       label,
       measurement,
