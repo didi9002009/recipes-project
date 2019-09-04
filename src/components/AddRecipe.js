@@ -24,8 +24,8 @@ class AddRecipe extends Component {
   }
 
   addOrUpdateRecipe = (formValues) => {
-    if (this.state.recipeToEdit) this.addRecipe(formValues);
-    if (!this.state.recipeToEdit) this.updateRecipe(this.state.recipeToEdit.id, formValues);
+    if (!this.state.recipeToEdit) this.addRecipe(formValues);
+    if (this.state.recipeToEdit) this.updateRecipe(this.state.recipeToEdit.id, formValues);
   }
 
   addRecipe = (formValues) => {
@@ -95,14 +95,15 @@ class AddRecipe extends Component {
     const { recipeToEdit } = this.state;
     return (
       <StyledFormGroup>
-        <h2>Add Recipe</h2>
+        <h2>{ recipeToEdit && recipeToEdit.id ? 'Edit' : 'Add' } Recipe</h2>
         <Formik
           initialValues={{
-            title: recipeToEdit ? recipeToEdit.title : '',
-            instructions: recipeToEdit ? recipeToEdit.instructions : '',
-            ingredients: recipeToEdit ? recipeToEdit.ingredients.join("\n") : '',
+            title: recipeToEdit && recipeToEdit.title ? recipeToEdit.title : '',
+            instructions: recipeToEdit && recipeToEdit.instructions ? recipeToEdit.instructions : '',
+            ingredients: recipeToEdit && recipeToEdit.ingredients ? recipeToEdit.ingredients.join("\n") : '',
             file: '',
           }}
+          enableReinitialize
           validate={values => this.validate(values)}
           onSubmit={(values, { setSubmitting }) => {
             this.addOrUpdateRecipe(values);

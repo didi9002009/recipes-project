@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const CardStyles = styled.div`
   border: 1px solid #eee;
   padding: 1rem;
+  img { 
+    width: 100%;
+  }
 `;
 
 export const CardsContainer = styled.div`
