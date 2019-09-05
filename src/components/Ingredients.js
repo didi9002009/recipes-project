@@ -17,7 +17,8 @@ const Ingredients = ({
   updateIngredientMeasurement,
   editIngredient,
   deleteIngredient,
-}) => (
+  active
+}) => active && (
   <IngredientsContainer>
     <IngredientsList>
       <JustifiedRow>

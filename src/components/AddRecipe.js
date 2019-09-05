@@ -68,19 +68,21 @@ class AddRecipe extends Component {
 
   handleImageUpload = async (e) => {
     const { files } = e.target;
-    const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'recipes');
-
-    const res = await fetch(process.env.CLOUDINARY_UPLOAD_URL, {
-      method: 'POST',
-      body: data,
-    });
-    const file = await res.json();
-    this.setState({
-      imageUrl: file.secure_url,
-      largeImageUrl: file.eager[0].secure_url,
-    }, () => console.log('upload complete!'));
+    if (files && files[0]) {
+      const data = new FormData();
+      data.append('file', files[0]);
+      data.append('upload_preset', 'recipes');
+  
+      const res = await fetch(process.env.REACT_APP_CLOUDINARY_UPLOAD_URL, {
+        method: 'POST',
+        body: data,
+      });
+      const file = await res.json();
+      this.setState({
+        imageUrl: file.secure_url,
+        largeImageUrl: file.eager[0].secure_url,
+      }, () => console.log('upload complete!'));
+    }
   }
 
   validate = (values) => {
@@ -109,33 +111,34 @@ class AddRecipe extends Component {
             this.addOrUpdateRecipe(values);
           }}
         >
-          {({ isSubmitting, setFieldValue }) => (
+          {({ isSubmitting, setFieldValue, errors, touched, values }) => (
             <Form>
               <StyledInputGroup>
                 <StyledLabel htmlFor="title">Title</StyledLabel>
-                <Field type="text" id="title" name="title" />
-                <ErrorMessage name="title" component="div" />
+                <Field type="text" id="title" name="title" className={errors.title && touched.title ? 'error' : ''} />
+                <ErrorMessage name="title" component="div" className="error-msg" />
               </StyledInputGroup>
 
               <StyledInputGroup>
-                <StyledLabel htmlFor="file">Upload an Image</StyledLabel>
-                <Field type="file" id="file" name="file" onChange={(e) => {
+                { this.state.imageUrl && <img src={this.state.imageUrl} alt="Recipe to be uploaded" /> }
+                <StyledLabel htmlFor="file" className="file-label">{values.file ? 'Image selected!' : 'Upload an Image'}</StyledLabel>
+                <Field type="file" id="file" name="file" accept="image/*" onChange={(e) => {
                   this.handleImageUpload(e);
                   setFieldValue('file', e.target.value, false);
-                }} />
-                <ErrorMessage name="file" component="div" />
+                }} className={errors.file && touched.file ? 'error' : ''}/>
+                <ErrorMessage name="file" component="div" className="error-msg" />
               </StyledInputGroup>
 
               <StyledInputGroup>
                 <StyledLabel htmlFor="ingredients">Ingredients (on separate lines)</StyledLabel>
-                <Field component="textarea" id="ingredients" name="ingredients" rows="3" />
-                <ErrorMessage name="ingredients" component="div" />
+                <Field component="textarea" id="ingredients" name="ingredients" rows="3" className={errors.ingredients && touched.ingredients ? 'error' : ''} />
+                <ErrorMessage name="ingredients" component="div" className="error-msg" />
               </StyledInputGroup>
 
               <StyledInputGroup>
                 <StyledLabel htmlFor="instructions">Instructions</StyledLabel>
-                <Field component="textarea" id="instructions" name="instructions" rows="3" />
-                <ErrorMessage name="instructions" component="div" />
+                <Field component="textarea" id="instructions" name="instructions" rows="3" className={errors.instructions && touched.instructions ? 'error' : ''} />
+                <ErrorMessage name="instructions" component="div" className="error-msg" />
               </StyledInputGroup>
               
               <StyledInputGroup>

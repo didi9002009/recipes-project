@@ -19,22 +19,18 @@ const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 Modal.setAppElement('#root');
 
 const StyledModal = styled(Modal)`
+  background: var(--tea);
   border: none;
   position: absolute;
-  background-color: #D8315B;
-  color: #FFFAFF;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  height: 80vh;
-  overflow: scroll;
-  padding: 2rem;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 2rem 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-  box-shadow: 10px 10px 30px 0px rgba(0,0,0,0.3);
-  border-radius: 2rem;
+  align-items: ${props => props.scrollable ? 'flex-start' : 'center'};
+  animation: pop-up 200ms;
+  z-index: 10000;
   &:focus {
     outline: none;
   }
@@ -195,12 +191,13 @@ class Dashboard extends Component {
   render() {
     return (
       <>
-      <Nav handleChange={this.handleChange} index={this.state.index} />
+      <Nav handleChange={this.handleChange} index={this.state.index} isHidden={this.state.isModalOpen}/>
 
       <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={this.state.index} onChangeIndex={this.handleChangeIndex}>
         <Home
           openModal={this.openModal}
           signOut={this.signOut}
+          active={this.state.index === 0}
           key={0} />
         <Ingredients
           openModal={this.openModal}
@@ -208,19 +205,23 @@ class Dashboard extends Component {
           updateIngredientMeasurement={this.updateIngredientMeasurement}
           editIngredient={this.editIngredient}
           deleteIngredient={this.deleteIngredient}
+          active={this.state.index === 1}
           key={1} />
         <Recipes
           openModal={this.openModal}
           recipes={this.state.recipes}
+          active={this.state.index === 2}
           key={2} />
         <Meals
-          recipes={this.state.recipes} 
+          recipes={this.state.recipes}
+          active={this.state.index === 3} 
           key={3} />
       </BindKeyboardSwipeableViews>
 
       <StyledModal
         isOpen={this.state.isModalOpen}
         onRequestClose={this.closeModal}
+        scrollable={this.state.isRecipeModal}
       >
         <CloseButton onClick={this.closeModal}>&times;</CloseButton>
         { this.state.isRecipeModal && <AddRecipe />}

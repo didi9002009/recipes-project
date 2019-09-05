@@ -2,7 +2,7 @@ import React from 'react';
 import { HomeButton } from './styles/Buttons';
 import { HomeContainer } from './styles/Views';
 
-const Home = ({ openModal, signOut }) => (
+const Home = ({ openModal, signOut, active }) => active && (
   <HomeContainer>
     <div>
       <h1>Welcome!</h1>

@@ -6,7 +6,7 @@ import { PlusButton } from './styles/Buttons';
 import { CardsContainer } from './styles/Cards';
 import Card from './Card'
 
-const Recipes = ({ recipes, openModal }) => (
+const Recipes = ({ recipes, openModal, active }) => active && (
   <RecipesContainer>
     <RecipesList>
       <JustifiedRow>

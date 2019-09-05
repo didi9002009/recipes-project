@@ -20,3 +20,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@keyframes pop-up {
+  0% {
+    top: 100vh;
+  }
+  100% {
+    top: 0;
+  }
+}

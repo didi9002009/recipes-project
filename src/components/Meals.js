@@ -3,7 +3,7 @@ import { RecipesContainer } from './styles/Views';
 import { CardsContainer } from './styles/Cards';
 import Card from './Card'
 
-const Meals = ({ recipes }) => (
+const Meals = ({ recipes, active }) => active && (
   <RecipesContainer>
     <div>
     <h1>You can make...</h1>

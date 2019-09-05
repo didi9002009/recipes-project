@@ -16,7 +16,6 @@ export const TabsContainer = styled.nav`
 export const Tab = styled.div`
   width: 100%;
   height: 100%;
-  z-index: 5000;
   display: flex;
   justify-content: center;
   align-items: center;

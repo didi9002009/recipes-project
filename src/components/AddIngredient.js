@@ -56,6 +56,7 @@ class AddIngredient extends Component {
     let errors = {};
     if (!values.label) errors.label = "Name is required";
     if (!values.measurement) errors.measurement = "Measurement is required";
+    if (values.measurement === 0) errors.measurement = "Measurement must be more than zero";
     if (!values.unit) errors.unit = "Unit is required";
     return errors;
   }
@@ -64,7 +65,7 @@ class AddIngredient extends Component {
     const { ingredientToEdit } = this.state;
     return (
       <StyledFormGroup>
-        <h2>{ingredientToEdit && ingredientToEdit.id ? 'Edit' : 'Add' } Ingredient</h2>
+        <h1>{ingredientToEdit && ingredientToEdit.id ? 'Edit' : 'Add' } Ingredient</h1>
         <Formik
           initialValues={{
             label: ingredientToEdit && ingredientToEdit.label ? ingredientToEdit.label : '',
@@ -77,24 +78,24 @@ class AddIngredient extends Component {
             this.addOrUpdateIngredient(values);
           }}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors, touched }) => (
             <Form>
               <StyledInputGroup>
                 <StyledLabel htmlFor="label">Name</StyledLabel>
-                <Field type="text" id="label" name="label" />
-                <ErrorMessage name="label" component="div" />
+                <Field type="text" id="label" name="label" className={errors.label && touched.label ? 'error' : ''} />
+                <ErrorMessage name="label" component="div" className="error-msg" />
               </StyledInputGroup>
 
               <StyledInputGroup half>
                 <StyledLabel htmlFor="measurement">Amount</StyledLabel>
-                <Field type="number" id="measurement" name="measurement" />
-                <ErrorMessage name="measurement" component="div" />
+                <Field type="number" id="measurement" name="measurement" className={errors.measurement && touched.measurement ? 'error' : '' } />
+                <ErrorMessage name="measurement" component="div" className="error-msg" />
               </StyledInputGroup>
 
               <StyledInputGroup half second>
                 <StyledLabel htmlFor="unit">Unit</StyledLabel>
-                <Field type="text" id="unit" name="unit" />
-                <ErrorMessage name="unit" component="div" />
+                <Field type="text" id="unit" name="unit" className={errors.unit && touched.unit ? 'error' : '' }/>
+                <ErrorMessage name="unit" component="div" className="error-msg" />
               </StyledInputGroup>
 
               <StyledInputGroup>
