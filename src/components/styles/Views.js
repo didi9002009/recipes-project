@@ -29,6 +29,12 @@ export const IngredientsList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-height: min-content;
+  overflow: scroll;
+  margin-bottom: 100px;
+  @media screen and (min-width: 701px) {
+    margin-top: 100px;
+  }
   .accordion {
     width: 100%;
   }
@@ -58,6 +64,7 @@ export const IngredientsList = styled.div`
 
 export const RecipesList = styled(IngredientsList)`
   max-width: 1000px;
+  margin-bottom: 100px;
 `;
 
 export const JustifiedRow = styled.div`

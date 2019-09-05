@@ -1,11 +1,11 @@
 import React from 'react';
-import { CardStyles } from './styles/Cards';
+import { CardStyles, CardBody } from './styles/Cards';
 
 const Card = ({ item, matchCard }) => (
-  <CardStyles>
-    { item.imageUrl && <img src={item.imageUrl} alt={item.title} /> }
+  <CardStyles bgImage={item.imageUrl}>
+    <CardBody>
     <h2>{item.title}</h2>
-    { !matchCard && <p>{item.instructions}</p> }
+    {/* { !matchCard && <p>{item.instructions}</p> } */}
     { matchCard && <p>{Math.round(item.matchPercent * 100)}% of ingredients in pantry</p>}
     { matchCard && (
       <>
@@ -15,6 +15,7 @@ const Card = ({ item, matchCard }) => (
         </ul>
       </>
       )}
+    </CardBody>
   </CardStyles>
 );
 
