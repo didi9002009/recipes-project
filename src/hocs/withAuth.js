@@ -13,7 +13,11 @@ export const withAuth = ProtectedComponent => {
         if (user) {
           this.setState({
             userId: user.uid,
-          }, () => navigate('/'));
+          }, () => {
+            if (this.props.path === 'login') {
+              navigate('/');
+            }
+          });
         } else {
           this.setState({
             userId: null,

@@ -10,6 +10,9 @@ export const HomeContainer = styled.div`
   overflow: hidden;
   color: var(--dark-gray);
   text-align: center;
+  h1 {
+    margin: 2rem 0;
+  }
 `;
 
 export const IngredientsContainer = styled.div`
@@ -19,6 +22,9 @@ export const IngredientsContainer = styled.div`
   min-height: 100vh;
   width: 100vw;
   color: var(--dark-gray);
+  h1 {
+    margin: 2rem 0;
+  }
 `;
 
 export const RecipesContainer = styled(IngredientsContainer)``;

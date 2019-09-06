@@ -7,6 +7,9 @@ export const StyledFormGroup = styled.div`
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 1rem;
   }
+  h1 {
+    margin: 2rem 0;
+  }
 `;
 
 export const StyledInputGroup = styled.div`

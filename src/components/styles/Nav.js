@@ -13,7 +13,7 @@ export const TabsContainer = styled.nav`
   @media screen and (min-width: 701px) {
     top: 0;
     margin: 0 auto;
-    padding: 1rem 10vw;
+    padding: 0 10vw;
   }
   @media screen and (max-width: 700px) {
     bottom: 0;
@@ -42,6 +42,9 @@ export const Tab = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @media screen and (min-width: 701px) {
+      margin-top: 1.5rem;
+    }
     @media screen and (max-width: 700px) {
       background: ${props => props.active ? 'var(--red)' : 'transparent'};
       width: 60px;

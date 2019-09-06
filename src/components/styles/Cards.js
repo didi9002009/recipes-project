@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CardStyles = styled.div`
   border: 1px solid #eee;
-  background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.5)),
+  background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.6)),
     url('${props => props.bgImage ? props.bgImage : 'none'}');
   background-size: cover;
   background-position: center;

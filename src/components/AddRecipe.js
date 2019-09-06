@@ -97,7 +97,7 @@ class AddRecipe extends Component {
     const { recipeToEdit } = this.state;
     return (
       <StyledFormGroup>
-        <h2>{ recipeToEdit && recipeToEdit.id ? 'Edit' : 'Add' } Recipe</h2>
+        <h1>{ recipeToEdit && recipeToEdit.id ? 'Edit' : 'Add' } Recipe</h1>
         <Formik
           initialValues={{
             title: recipeToEdit && recipeToEdit.title ? recipeToEdit.title : '',
