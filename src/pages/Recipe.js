@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from '@reach/router';
 import { db, auth } from '../firebase.js';
 import { withAuth } from '../hocs/withAuth';
+import { TabsContainer, Tab } from '../components/styles/Nav';
+import { RecipeContainer } from '../components/styles/Views';
 
 class Recipe extends Component {
   state = {
@@ -26,8 +29,18 @@ class Recipe extends Component {
   }
 
   render() {
-    return (
-      <h1>{ this.state.recipe && this.state.recipe.title ? this.state.recipe.title : 'Recipe loading...' }</h1>
+    const { recipe } = this.state;
+    return recipe && (
+      <>
+        <TabsContainer>
+          <Tab alignLeft><Link to='/'>Home</Link></Tab>
+        </TabsContainer>
+        <RecipeContainer>
+          { recipe.title && <h1>{ recipe.title }</h1> }
+          { recipe.largeImageUrl && <img src={ recipe.largeImageUrl } alt={ recipe.title } /> }
+          { recipe.instructions && <div dangerouslySetInnerHTML={{__html: recipe.instructions.replace("\n", "<br />")}}></div> }
+        </RecipeContainer>
+      </>
     )
   }
 }

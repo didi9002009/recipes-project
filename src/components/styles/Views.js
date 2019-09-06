@@ -22,12 +22,25 @@ export const IngredientsContainer = styled.div`
   min-height: 100vh;
   width: 100vw;
   color: var(--dark-gray);
+  @media screen and (min-width: 701px) {
+    margin-top: 100px;
+  }
   h1 {
     margin: 2rem 0;
   }
 `;
 
 export const RecipesContainer = styled(IngredientsContainer)``;
+
+export const RecipeContainer = styled(IngredientsContainer)`
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  img {
+    max-width: 1000px;
+    max-height: 1000px;
+  }
+`;
 
 export const IngredientsList = styled.div`
   width: 80%;
@@ -38,9 +51,6 @@ export const IngredientsList = styled.div`
   min-height: min-content;
   overflow: scroll;
   margin-bottom: 100px;
-  @media screen and (min-width: 701px) {
-    margin-top: 100px;
-  }
   .accordion {
     width: 100%;
   }

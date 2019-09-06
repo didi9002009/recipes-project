@@ -24,7 +24,7 @@ export const Tab = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: ${props => props.alignLeft ? 'flex-start' : 'center'};
   align-items: center;
   /* @media screen and (min-width: 701px) {
     border-right: 1px solid #EEE;
