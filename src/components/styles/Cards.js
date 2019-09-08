@@ -1,31 +1,56 @@
 import styled from 'styled-components';
 
 export const CardStyles = styled.div`
-  border: 1px solid #eee;
-  background-image: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,0.6)),
-    url('${props => props.bgImage ? props.bgImage : 'none'}');
+  background-image: url('${props => props.bgImage ? props.bgImage : 'none'}'),
+    linear-gradient(var(--light-orange), var(--dark-orange));
   background-size: cover;
   background-position: center;
-  min-height: 200px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* padding: 0.5rem 1rem; */
+  min-height: 200px;
   box-shadow: 10px 10px 48px -30px rgba(0,0,0,0.4);
+  border-radius: 2.5rem;
+  border: ${props => props.bgImage ? '1px solid var(--light-blue)' : 'none'};
+  position: relative;
+  overflow: hidden;
   h2 {
     display: inline;
-    background-color: var(--yellow);
+    background-color: ${props => props.bgImage ? 'var(--dark-orange)' : 'transparent'};
+    color: white;
     box-decoration-break: clone;
     font-size: 2em;
     padding: 0.2em;
-    line-height: 1.8em;
+    line-height: ${props => props.bgImage ? '1.5em' : '1em'};
   }
   p {
     margin: 1rem 0;
   }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  .match {
+    display: block;
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    background-color: var(--dark-green);
+    color: white;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transform: rotate(45deg);
+    padding-bottom: 0.4rem;
+    font-weight: bold;
+  }
 `;
 
 export const CardBody = styled.div`
-  padding: 0.5rem 1rem;
   z-index: 100;
 `;
 

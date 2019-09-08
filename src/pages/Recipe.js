@@ -40,7 +40,7 @@ class Recipe extends Component {
           <RecipeHeader bgImage={recipe.largeImageUrl}>
             { recipe.title && <h1>{ recipe.title }</h1> }
           </RecipeHeader>
-          { recipe.instructions && <div dangerouslySetInnerHTML={{__html: recipe.instructions.replace("\n", "<br />")}}></div> }
+          { recipe.instructions && <div dangerouslySetInnerHTML={{__html: recipe.instructions.replace(/\n/g, "<br />")}}></div> }
         </RecipeContainer>
       </>
     )

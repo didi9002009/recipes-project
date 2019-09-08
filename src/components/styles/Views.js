@@ -104,12 +104,23 @@ export const RecipesList = styled(IngredientsList)`
   margin-bottom: 100px;
 `;
 
+// new
+
 export const JustifiedRow = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
+
+export const AlignedRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+`;
+
+// ingredients
 
 export const StyledIngredientsMain = styled.main`
   width: calc(100% - var(--nav-width));
@@ -164,9 +175,10 @@ export const StyledIngredientListItem = styled.li`
   }
 `;
 
-export const AlignedRight = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
+// recipes
+
+export const StyledRecipesMain = styled(StyledIngredientsMain)`
+  grid-template-columns: 1fr;
 `;
+
+export const StyledRecipesSection = styled(StyledCurrentIngredientsSection)``;
