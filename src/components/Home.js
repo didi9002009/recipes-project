@@ -6,11 +6,11 @@ import { StyledRecipesMain, StyledRecipesSection } from './styles/Views';
 const Home = ({ openModal, signOut, active, recipes, ingredients }) => active && (
   <StyledRecipesMain>
     <StyledRecipesSection>
-      <h1>Welcome!</h1>
+      <h1>Welcome to your Pantry Manager!</h1>
       <h2>Quick Links</h2>
       <div>
-        <button onClick={() => openModal(true)}>Add Recipe</button>
-        <button onClick={() => openModal(false)}>Add Ingredient</button>
+        <HomeButton onClick={() => openModal(true)}>Add Recipe</HomeButton>
+        <HomeButton onClick={() => openModal(false)}>Add Ingredient</HomeButton>
       </div>
       <h2>Recent Activity</h2>
       { recipes.length && <p>The last recipe you added was <Link to={`/recipes/${recipes[recipes.length-1]['id']}`}>{recipes[recipes.length-1]['title']}</Link>.</p> }

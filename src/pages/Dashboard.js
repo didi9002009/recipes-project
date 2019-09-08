@@ -46,6 +46,7 @@ class Dashboard extends Component {
     isIngredientModal: false,
     recipes: [],
     ingredients: [],
+    shopping: [],
   }
 
   componentDidMount = () => {
@@ -78,6 +79,20 @@ class Dashboard extends Component {
         recipes: newState,
       }, () => this.matchIngredients());
     });
+    db.collection('shopping').where("uid", "==", uid).onSnapshot(snapshot => {
+      let shoppingList = snapshot.docs;
+      let newState = [];
+      for (let item in shoppingList) {
+        const listItem = {
+          ...shoppingList[item].data(),
+          id: shoppingList[item].ref.id,
+        }
+        newState.push(listItem);
+      }
+      this.setState({
+        shopping: newState,
+      });
+    })
   }
 
   matchIngredients = () => {
@@ -163,6 +178,24 @@ class Dashboard extends Component {
     this.props.resetEditIngredient();
   }
 
+  addToShoppingList = (ingredients) => {
+    console.log(`Adding ${ingredients} to shopping list...`)
+    const { uid } = auth.currentUser;
+    ingredients.map(label => (
+      db.collection('shopping').add({
+        uid,
+        label,
+        unit: 'unit',
+        measurement: 1,
+        done: false,
+      })
+      .then(docRef => {
+        console.log('Document written with ID: ', docRef);
+      })
+      .catch(error => console.log('Error adding document: ', error))
+    ));
+  }
+
   openModal = (isRecipe=true) => {
     this.setState({
       isModalOpen: true,
@@ -222,8 +255,10 @@ class Dashboard extends Component {
         <Meals
           recipes={this.state.recipes}
           active={this.state.index === 3} 
+          addToShoppingList={this.addToShoppingList}
           key={3} />
-        <ShoppingList 
+        <ShoppingList
+          shopping={this.state.shopping}
           openModal={this.openModal}
           active={this.state.index === 4}
           key={4} />

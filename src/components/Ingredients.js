@@ -1,7 +1,15 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { StyledIngredientsMain, StyledCurrentIngredientsSection, StyledQuickAddIngredientsSection, JustifiedRow, StyledIngredientListItem, AlignedRight } from './styles/Views';
+import { faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { AddButton, EditButton, DeleteButton, MathButton } from './styles/Buttons';
+import {
+  StyledIngredientsMain,
+  StyledCurrentIngredientsSection,
+  StyledQuickAddIngredientsSection,
+  JustifiedRow,
+  StyledIngredientListItem,
+  AlignedRight,
+} from './styles/Views';
 
 const Ingredients = ({
   ingredients,
@@ -18,21 +26,21 @@ const Ingredients = ({
       </AlignedRight>
       <JustifiedRow>
         <h1>Pantry</h1>
-        <button onClick={() => openModal(false)}>Add Ingredient</button>
+        <AddButton onClick={() => openModal(false)}>Add Ingredient</AddButton>
       </JustifiedRow>
       <h2>You have {ingredients.length} ingredient{ingredients.length === 1 ? '' : 's'}:</h2>
       <ul>
         { ingredients.map(item => (
           <StyledIngredientListItem key={item.id}>
             <div>
-              <span className="ingredient__label">{item.label} &middot; <button onClick={() => editIngredient(item.id)}>Edit</button></span>
+              <span className="ingredient__label">{item.label} <EditButton onClick={() => editIngredient(item.id)}>Edit</EditButton></span>
               <span className="ingredient__measurement">
-                {item.measurement} {item.unit} &middot; 
-                <button onClick={() => updateIngredientMeasurement(item, false)}>-</button> 
-                <button onClick={() => updateIngredientMeasurement(item)}>+</button>
+                {item.measurement} {item.unit}
+                <MathButton onClick={() => updateIngredientMeasurement(item, false)}><FontAwesomeIcon icon={faMinusCircle} /></MathButton> 
+                <MathButton onClick={() => updateIngredientMeasurement(item)}><FontAwesomeIcon icon={faPlusCircle} /></MathButton>
               </span>
             </div>
-            <button onClick={() => deleteIngredient(item.id)}>Delete</button>
+            <DeleteButton onClick={() => deleteIngredient(item.id)}>Delete</DeleteButton>
           </StyledIngredientListItem>
         ))}
       </ul>

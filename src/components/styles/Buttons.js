@@ -1,35 +1,35 @@
 import styled from 'styled-components';
 
 export const HomeButton = styled.button`
-  width: 80%;
-  background-color: var(--yellow);
+  background-color: var(--dark-gray);
+  color: white;
   font-weight: normal;
-  font-size: 1.2rem;
-  border-radius: 2rem;
-  padding: 0.66rem 1rem;
+  font-size: 1rem;
+  border-radius: 2.5rem;
+  padding: 0.5rem 0.7rem;
   border: none;
   margin-bottom: 1rem;
+  margin-right: 0.5rem;
 `;
 
 export const AddButton = styled(HomeButton)`
-  width: auto;
-  margin: 1rem auto;
+  margin: 1rem 0;
 `;
 
 export const DeleteButton = styled(HomeButton)`
-  width: auto;
-  background-color: var(--red);
+  background-color: var(--dark-orange);
   color: white;
-  font-size: 1rem;
+  font-size: 0.8rem;
 `;
 
 export const EditButton = styled.button`
-  font-size: 1rem;
+  font-size: 0.9rem;
   background: none;
   border: none;
   padding: 0;
-  font-weight: bold;
-  text-decoration: underline;
+  text-transform: uppercase;
+  color: var(--dark-orange);
+  margin: 0 0 0 0.5rem;
 `;
 
 export const CloseButton = styled.button`
@@ -46,12 +46,13 @@ export const CloseButton = styled.button`
 
 export const MathButton = styled.button`
   font-size: 1rem;
-  width: 2rem;
-  height: 2rem;
-  background-color: var(--dark-gray);
-  color: white;
-  border: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: transparent;
+  color: var(--dark-orange);
   border-radius: 2rem;
+  border: none;
+  margin: 0 0 0 0.2rem;
 `;
 
 export const PlusButton = styled.button`

@@ -1,8 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { JustifiedRow, StyledRecipesMain, StyledRecipesSection } from './styles/Views';
-import { PlusButton } from './styles/Buttons';
+import { AddButton } from './styles/Buttons';
 import { CardsContainer } from './styles/Cards';
 import Card from './Card'
 
@@ -11,9 +9,9 @@ const Recipes = ({ recipes, openModal, active }) => active && (
     <StyledRecipesSection>
       <JustifiedRow>
         <h1>Recipes</h1>
-        <button onClick={() => openModal(true)}>
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
+        <AddButton onClick={() => openModal(true)}>
+          Add Recipe
+        </AddButton>
       </JustifiedRow>
       <CardsContainer>
         { recipes.map(item => <Card item={item} key={item.id} />)}

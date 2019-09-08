@@ -3,13 +3,15 @@ import { Link } from '@reach/router';
 import { CardStyles } from './styles/Cards';
 import { StyledCardButton } from './styles/Buttons';
 
-const Card = ({ item, matchCard }) => (
+const Card = ({ item, matchCard, addToShoppingList }) => (
   <CardStyles bgImage={item.imageUrl}>
     { matchCard && <span className="match">{Math.round(item.matchPercent * 100)}%</span> }
     <h2><Link to={`/recipes/${item.id}`}>{item.title}</Link></h2>
     { matchCard && (
       <div className="button-container">
-        <StyledCardButton>Add {item.ingredientsNeeded.length} needed items to shopping list</StyledCardButton>
+        <StyledCardButton onClick={() => addToShoppingList(item.ingredientsNeeded)}>
+          Add {item.ingredientsNeeded.length} needed items to shopping list
+        </StyledCardButton>
       </div>
     ) }
   </CardStyles>
