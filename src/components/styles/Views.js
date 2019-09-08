@@ -35,10 +35,31 @@ export const RecipesContainer = styled(IngredientsContainer)``;
 export const RecipeContainer = styled(IngredientsContainer)`
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+  p, div { margin-bottom: 1rem; }
+`;
+
+export const RecipeHeader = styled.div`
+  width: 100%;
+  background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4)),
+    url('${props => props.bgImage ? props.bgImage : 'none'}');
+  background-size: cover;
+  background-position: center;
+  min-height: ${props => props.bgImage ? '400px' : '200px'};
+  display: flex;
+  justify-content: center;
   align-items: center;
-  img {
-    max-width: 1000px;
-    max-height: 1000px;
+  h1 {
+    display: inline;
+    background-color: var(--yellow);
+    box-decoration-break: clone;
+    font-size: 3em;
+    padding: 0.2em;
+    line-height: 1.8em;
+    color: black;
   }
 `;
 

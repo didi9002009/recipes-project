@@ -1,99 +1,58 @@
 import styled from 'styled-components';
+import { Link } from '@reach/router';
 
-export const TabsContainer = styled.nav`
+export const StyledNavCol = styled.nav`
   position: fixed;
+  top: 0;
   left: 0;
-  width: 100vw;
-  height: 80px;
+  width: 100px;
+  height: 100vh;
+  background-image: linear-gradient(var(--light-blue), var(--dark-blue), var(--dark-blue));
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   z-index: 5000;
-  color: black;
-  @media screen and (min-width: 701px) {
-    top: 0;
-    margin: 0 auto;
-    padding: 0 10vw;
-  }
-  @media screen and (max-width: 700px) {
-    bottom: 0;
+`;
+
+export const StyledNavLink = styled(Link)`
+  width: 65px;
+  height: 65px;
+  background-color: ${props => props.active ? 'white' : 'transparent'};
+  color: ${props => props.active ? 'var(--dark-blue)' : 'white'};
+  border-radius: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0;
+  font-size: 1.2rem;
+  text-decoration: none;
+  span {
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: bold;
+    margin-top: 0.3rem;
   }
 `;
 
-export const Tab = styled.div`
-  width: 100%;
-  height: 100%;
+export const StyledNavButton = styled.button`
+  width: 65px;
+  height: 65px;
+  background-color: ${props => props.active ? 'white' : 'transparent'};
+  color: ${props => props.active ? 'var(--dark-blue)' : 'white'};
+  border-radius: 25%;
+  border: none;
   display: flex;
-  justify-content: ${props => props.alignLeft ? 'flex-start' : 'center'};
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  /* @media screen and (min-width: 701px) {
-    border-right: 1px solid #EEE;
-    border-bottom: 1px solid #EEE;
-    &:last-child {
-      border-right: none;
-    }
-  } */
-  button {
-    transition: background 200ms ease-in,
-      border 200ms ease-in;
-    border: none;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    @media screen and (min-width: 701px) {
-      margin-top: 1.5rem;
-    }
-    @media screen and (max-width: 700px) {
-      background: ${props => props.active ? 'var(--red)' : 'transparent'};
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: ${props => props.active ? '2px solid var(--red)' : '2px solid var(--light-gray)'};
-      &:hover {
-        border: ${props => props.active ? '2px solid var(--red)' : '2px solid var(--dark-gray)'};
-      }
-    }
-    span {
-      display: none;
-      visibility: hidden;
-      transition: color 100ms ease-in;
-      @media screen and (min-width: 701px) {
-        font-family: "Roboto Mono";
-        display: block;
-        visibility: visible;
-        letter-spacing: 1.5px;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        margin-top: 0.8rem;
-        color: ${props => props.active ? 'var(--red)' : 'var(--dark-gray)'};
-      }
-    }
-    svg, path {
-      transition: fill 100ms ease-in;
-      @media screen and (min-width: 701px) {
-        &.small-icon {
-          display: none;
-          visibility: hidden;
-        }
-        &.big-icon {
-          display: block;
-          visibility: visible;
-        }
-        fill: ${props => props.active ? 'var(--red)' : 'var(--dark-gray)'};
-      }
-      @media screen and (max-width: 700px) {
-        fill: ${props => props.active ? 'white' : 'var(--dark-gray)'};
-        &.small-icon {
-          display: block;
-          visibility: visible;
-        }
-        &.big-icon {
-          display: none;
-          visibility: hidden;
-        }
-      }
-    }
+  margin: 4px 0;
+  font-size: 1.2rem;
+  span {
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: bold;
+    margin-top: 0.3rem;
   }
 `;

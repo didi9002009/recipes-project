@@ -179,7 +179,7 @@ class Dashboard extends Component {
   handleChange = (_, value) => {
     this.setState({
       index: value,
-    })
+    });
   }
 
   handleChangeIndex = (index) => {
@@ -191,7 +191,7 @@ class Dashboard extends Component {
   render() {
     return (
       <>
-      <Nav handleChange={this.handleChange} index={this.state.index} isHidden={this.state.isModalOpen}/>
+      <Nav handleChange={this.handleChange} index={this.state.index} isHidden={this.state.isModalOpen} path={this.props.path} />
 
       <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={this.state.index} onChangeIndex={this.handleChangeIndex}>
         <Home

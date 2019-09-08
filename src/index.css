@@ -5,6 +5,15 @@
   --blue: #011936;
   --dark-gray: #465362;
   --light-gray: #EEEEEE;
+
+  --dark-blue: #4080ff;
+  --med-blue: #6fadff;
+  --light-blue: #e1ebf7;
+  --dark-orange: #fbab51;
+  --light-orange: #ffc27e;
+  --dark-green: #83c83f;
+  --light-green: #a6e34f;
+  --dark-gray: #3e4f70;
 }
 
 body, * {
