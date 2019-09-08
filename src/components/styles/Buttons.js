@@ -64,3 +64,13 @@ export const PlusButton = styled.button`
     fill: white;
   }
 `;
+
+export const StyledCardButton = styled.button`
+  background-color: white;
+  color: var(--dark-gray);
+  border-radius: 2.5rem;
+  border: none;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+`;

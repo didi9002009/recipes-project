@@ -13,6 +13,7 @@ import Home from '../components/Home';
 import { CloseButton } from '../components/styles/Buttons';
 import Nav from '../components/Nav';
 import Meals from '../components/Meals';
+import ShoppingList from '../components/ShoppingList';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -202,6 +203,8 @@ class Dashboard extends Component {
           openModal={this.openModal}
           signOut={this.signOut}
           active={this.state.index === 0}
+          recipes={this.state.recipes}
+          ingredients={this.state.ingredients}
           key={0} />
         <Ingredients
           openModal={this.openModal}
@@ -220,6 +223,10 @@ class Dashboard extends Component {
           recipes={this.state.recipes}
           active={this.state.index === 3} 
           key={3} />
+        <ShoppingList 
+          openModal={this.openModal}
+          active={this.state.index === 4}
+          key={4} />
       </BindKeyboardSwipeableViews>
 
       <StyledModal

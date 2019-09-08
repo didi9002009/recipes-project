@@ -5,7 +5,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { db, auth } from '../firebase.js';
 import { withAuth } from '../hocs/withAuth';
 import Nav from '../components/Nav';
-import { RecipeContainer, RecipeHeader } from '../components/styles/Views';
+import { StyledIngredientsMain, StyledCurrentIngredientsSection, StyledQuickAddIngredientsSection, StyledIngredientListItem } from '../components/styles/Views';
 
 class Recipe extends Component {
   state = {
@@ -32,16 +32,27 @@ class Recipe extends Component {
     return recipe && (
       <>
         <Nav path={this.props.path} />
-        <RecipeContainer>
-          <Link to='/'>
-            <FontAwesomeIcon icon={faHome} size="1x" className="big-icon" />
-            <span>Home</span>
-          </Link>
-          <RecipeHeader bgImage={recipe.largeImageUrl}>
-            { recipe.title && <h1>{ recipe.title }</h1> }
-          </RecipeHeader>
-          { recipe.instructions && <div dangerouslySetInnerHTML={{__html: recipe.instructions.replace(/\n/g, "<br />")}}></div> }
-        </RecipeContainer>
+
+        <StyledIngredientsMain>
+          <StyledCurrentIngredientsSection>
+            <h1>{ recipe.title }</h1>
+            { recipe.largeImageUrl && <img src={recipe.largeImageUrl} alt={recipe.title} />}
+            <h2>Ingredients</h2>
+            <ul>
+              { recipe.ingredients.map(ingredient => (
+                <StyledIngredientListItem>
+                  { ingredient }
+                </StyledIngredientListItem>
+              ))}
+            </ul>
+            <h2>Instructions</h2>
+            { recipe.instructions && <div dangerouslySetInnerHTML={{__html: recipe.instructions.replace(/\n/g, "<br />")}}></div> }
+          </StyledCurrentIngredientsSection>
+          <StyledQuickAddIngredientsSection>
+            <h2>What you have</h2>
+            <p>Coming soon!</p>
+          </StyledQuickAddIngredientsSection>
+        </StyledIngredientsMain>
       </>
     )
   }

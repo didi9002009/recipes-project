@@ -7,7 +7,7 @@ export const StyledNavCol = styled.nav`
   left: 0;
   width: var(--nav-width);
   height: 100vh;
-  background-image: linear-gradient(var(--light-blue), var(--dark-blue), var(--dark-blue));
+  background-image: linear-gradient(var(--med-blue), var(--dark-blue), var(--dark-blue));
   display: flex;
   flex-direction: column;
   justify-content: center;

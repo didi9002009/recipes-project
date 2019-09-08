@@ -9,7 +9,7 @@ export const CardStyles = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding: 0.5rem 1rem; */
+  padding: 0.5rem 1rem;
   min-height: 200px;
   box-shadow: 10px 10px 48px -30px rgba(0,0,0,0.4);
   border-radius: 2.5rem;
@@ -48,10 +48,6 @@ export const CardStyles = styled.div`
     padding-bottom: 0.4rem;
     font-weight: bold;
   }
-`;
-
-export const CardBody = styled.div`
-  z-index: 100;
 `;
 
 export const CardsContainer = styled.div`

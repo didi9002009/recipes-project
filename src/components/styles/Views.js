@@ -148,6 +148,9 @@ export const StyledCurrentIngredientsSection = styled.section`
   h2 {
     margin: 1rem 0;
   }
+  img {
+    max-width: 100%;
+  }
 `;
 
 export const StyledQuickAddIngredientsSection = styled.section`

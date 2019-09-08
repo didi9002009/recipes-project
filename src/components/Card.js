@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from '@reach/router';
 import { CardStyles } from './styles/Cards';
+import { StyledCardButton } from './styles/Buttons';
 
 const Card = ({ item, matchCard }) => (
   <CardStyles bgImage={item.imageUrl}>
@@ -8,7 +9,7 @@ const Card = ({ item, matchCard }) => (
     <h2><Link to={`/recipes/${item.id}`}>{item.title}</Link></h2>
     { matchCard && (
       <div className="button-container">
-        <button>Add {item.ingredientsNeeded.length} needed items to shopping list</button>
+        <StyledCardButton>Add {item.ingredientsNeeded.length} needed items to shopping list</StyledCardButton>
       </div>
     ) }
   </CardStyles>
