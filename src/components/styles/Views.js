@@ -110,3 +110,63 @@ export const JustifiedRow = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const StyledIngredientsMain = styled.main`
+  width: calc(100% - var(--nav-width));
+  margin: 0 0 0 var(--nav-width);
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  color: var(--dark-gray);
+  ul {
+    list-style-type: none;
+    margin: 0;
+  }
+  h1 {
+    font-size: 2.5rem;
+    margin: 2rem 0;
+  }
+  h2 {
+    font-size: 2rem;
+    margin: 2rem 0;
+  }
+`;
+
+export const StyledCurrentIngredientsSection = styled.section`
+  padding: 4rem;
+  h2 {
+    margin: 1rem 0;
+  }
+`;
+
+export const StyledQuickAddIngredientsSection = styled.section`
+  padding: 4rem;
+  background-image: linear-gradient(white, var(--light-blue));
+`;
+
+export const StyledIngredientListItem = styled.li`
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--light-blue);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .ingredient__label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .ingredient__measurement {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+export const AlignedRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+`;

@@ -127,23 +127,27 @@ class Dashboard extends Component {
   }
 
   updateIngredientMeasurement = (item, inc=true) => {
+    const { uid } = auth.currentUser;
     const { id, measurement, label, unit } = item;
     const newMeasurement = inc ? parseInt(measurement) + 1 : parseInt(measurement) - 1;
     db.collection('ingredients').doc(id).set({
       measurement: newMeasurement >= 1 ? newMeasurement : 1,
       label,
       unit,
+      uid,
     })
     .then(() => console.log(`Document ${id} successfully updated!`))
     .catch(error => console.log('Error updating: ', error))
   }
 
   updateIngredient = (item) => {
+    const { uid } = auth.currentUser;
     const { id, label, measurement, unit } = item;
     db.collection('ingredients').doc(id).set({
       label,
       measurement,
-      unit
+      unit,
+      uid,
     })
     .then(() => console.log(`Document ${id} successfully updated!`))
     .catch(error => console.log('Error updating: ', error))
@@ -224,8 +228,8 @@ class Dashboard extends Component {
         scrollable={this.state.isRecipeModal}
       >
         <CloseButton onClick={this.closeModal}>&times;</CloseButton>
-        { this.state.isRecipeModal && <AddRecipe />}
-        { this.state.isIngredientModal && <AddIngredient ingredientToEdit={this.state.targetIngredient} resetEditIngredient={this.resetEditIngredient} />}
+        { this.state.isRecipeModal && <AddRecipe closeModal={this.closeModal} />}
+        { this.state.isIngredientModal && <AddIngredient closeModal={this.closeModal} ingredientToEdit={this.state.targetIngredient} resetEditIngredient={this.resetEditIngredient} />}
       </StyledModal>
       </>
     );
