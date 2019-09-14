@@ -3,7 +3,6 @@ import { Link } from '@reach/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { db, auth } from '../firebase.js';
-import { withAuth } from '../hocs/withAuth';
 import Nav from '../components/Nav';
 import { StyledIngredientsMain, StyledCurrentIngredientsSection, StyledQuickAddIngredientsSection, StyledIngredientListItem } from '../components/styles/Views';
 
@@ -58,4 +57,4 @@ class Recipe extends Component {
   }
 }
 
-export default withAuth(Recipe);
+export default Recipe;

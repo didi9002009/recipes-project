@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { JustifiedRow, StyledRecipesMain, StyledRecipesSection } from './styles/Views';
 import { AddButton } from './styles/Buttons';
 import { CardsContainer } from './styles/Cards';
-import Card from './Card'
+import Card from './Card';
+import { openModal } from '../actions/app';
 
 const Recipes = ({ recipes, openModal, active }) => active && (
   <StyledRecipesMain>
@@ -20,4 +22,10 @@ const Recipes = ({ recipes, openModal, active }) => active && (
   </StyledRecipesMain>
 );
 
-export default Recipes;
+const mapStateToProps = (state) => {
+  return {
+    recipes: state.recipes,
+  }
+}
+
+export default connect(mapStateToProps, { openModal })(Recipes);

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { auth } from '../firebase';
-import { withAuth } from '../hocs/withAuth';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 
@@ -47,4 +46,4 @@ class Login extends Component {
   }
 }
 
-export default withAuth(Login);
+export default Login;

@@ -162,8 +162,14 @@ export const StyledIngredientListItem = styled.li`
   padding: 1rem 0;
   border-bottom: 1px solid var(--light-blue);
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => props.alignLeft ? 'flex-start' : 'space-between'};
   align-items: center;
+  text-decoration: ${props => props.checked ? 'line-through' : 'none'};
+  color: ${props => props.checked ? 'var(--light-blue)' : 'inherit'};
+  input[type="checkbox"] {
+    border: ${props => props.checked ? '1px solid var(--light-blue)' : '1px solid var(--dark-gray)'};
+    margin-right: 1em;
+  }
   .ingredient__label {
     display: block;
     font-size: 1.2rem;

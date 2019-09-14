@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { db, auth } from '../firebase';
+import { connect } from 'react-redux';
 import {
   StyledFormGroup,
   StyledInputGroup,
@@ -7,63 +7,19 @@ import {
   StyledSubmitButton,
 } from './styles/Forms';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { createRecipe, updateRecipe } from '../actions/recipes';
 
 class AddRecipe extends Component {
   state = {
     imageUrl: '',
     largeImageUrl: '',
-    recipeToEdit: null,
-  }
-
-  componentDidMount = () => {
-    if (this.props.recipeToEdit) this.setState({ recipeToEdit: this.props.recipeToEdit });
-  }
-
-  processIngredients = ingredients => {
-    return ingredients.split(/\r?\n/);
   }
 
   addOrUpdateRecipe = (formValues) => {
-    if (!this.state.recipeToEdit) this.addRecipe(formValues);
-    if (this.state.recipeToEdit) this.updateRecipe(this.state.recipeToEdit.id, formValues);
-  }
-
-  addRecipe = (formValues) => {
-    const { uid } = auth.currentUser;
-    const { title, instructions, ingredients } = formValues;
+    const { status, createRecipe, updateRecipe } = this.props;
     const { imageUrl, largeImageUrl } = this.state;
-    const ingredientsList = this.processIngredients(ingredients);
-    console.log('Adding: ', title)
-    db.collection('recipes').add({
-      title,
-      instructions,
-      ingredients: ingredientsList,
-      uid,
-      imageUrl,
-      largeImageUrl,
-    })
-    .then(docRef => {
-      console.log('Document written with ID: ', docRef);
-      this.props.closeModal();
-    })
-    .catch(error => console.log('Error adding document: ', error));
-  }
-
-  updateRecipe = (id, formValues) => {
-    const { uid } = auth.currentUser;
-    const { title, instructions, ingredients } = formValues;
-    console.log(`Updating ${id}: `, title);
-    db.collection('recipes').doc(id).update({
-      title,
-      instructions,
-      ingredients,
-      uid,
-    })
-    .then(() => {
-      console.log(`Document ${id} successfully updated!`);
-      this.props.closeModal();
-    })
-    .catch(error => console.log('Error updating: ', error))
+    if (!status.recipeToEdit) createRecipe(formValues, imageUrl, largeImageUrl);
+    if (status.recipeToEdit) updateRecipe(status.recipeToEdit.id, formValues);
   }
 
   handleImageUpload = async (e) => {
@@ -72,7 +28,6 @@ class AddRecipe extends Component {
       const data = new FormData();
       data.append('file', files[0]);
       data.append('upload_preset', 'recipes');
-  
       const res = await fetch(process.env.REACT_APP_CLOUDINARY_UPLOAD_URL, {
         method: 'POST',
         body: data,
@@ -94,7 +49,7 @@ class AddRecipe extends Component {
   }
 
   render() {
-    const { recipeToEdit } = this.state;
+    const { recipeToEdit } = this.props.status;
     return (
       <StyledFormGroup>
         <h1>{ recipeToEdit && recipeToEdit.id ? 'Edit' : 'Add' } Recipe</h1>
@@ -152,4 +107,13 @@ class AddRecipe extends Component {
   }
 }
 
-export default AddRecipe;
+const mapStateToProps = (state) => {
+  return {
+    status: state.status,
+  }
+}
+
+export default connect(mapStateToProps, {
+  createRecipe,
+  updateRecipe,
+})(AddRecipe);

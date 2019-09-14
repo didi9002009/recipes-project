@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import { db, auth } from '../firebase.js';
-import { withAuth } from '../hocs/withAuth';
 import AddRecipe from '../components/AddRecipe';
 import AddIngredient from '../components/AddIngredient';
 import Ingredients from '../components/Ingredients';
@@ -14,6 +13,7 @@ import { CloseButton } from '../components/styles/Buttons';
 import Nav from '../components/Nav';
 import Meals from '../components/Meals';
 import ShoppingList from '../components/ShoppingList';
+import { openModal, closeModal, setTabIndex } from '../actions/app';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 
@@ -38,244 +38,40 @@ const StyledModal = styled(Modal)`
 `;
 
 class Dashboard extends Component {
-  state = {
-    index: 0,
-    targetIngredient: null,
-    isModalOpen: false,
-    isRecipeModal: false,
-    isIngredientModal: false,
-    recipes: [],
-    ingredients: [],
-    shopping: [],
-  }
-
-  componentDidMount = () => {
-    const { uid } = auth.currentUser;
-    db.collection('ingredients').where("uid", "==", uid).onSnapshot(snapshot => {
-      let ingredients = snapshot.docs;
-      let newState = [];
-      for (let item in ingredients) {
-        const ingredient = {
-          ...ingredients[item].data(),
-          id: ingredients[item].ref.id,
-        };
-        newState.push(ingredient);
-      }
-      this.setState({
-        ingredients: newState,
-      }, () => this.matchIngredients());
-    });
-    db.collection('recipes').where("uid", "==", uid).onSnapshot(snapshot => {
-      let recipes = snapshot.docs;
-      let newState = [];
-      for (let item in recipes) {
-        const recipe = {
-          ...recipes[item].data(),
-          id: recipes[item].ref.id,
-        }
-        newState.push(recipe);
-      }
-      this.setState({
-        recipes: newState,
-      }, () => this.matchIngredients());
-    });
-    db.collection('shopping').where("uid", "==", uid).onSnapshot(snapshot => {
-      let shoppingList = snapshot.docs;
-      let newState = [];
-      for (let item in shoppingList) {
-        const listItem = {
-          ...shoppingList[item].data(),
-          id: shoppingList[item].ref.id,
-        }
-        newState.push(listItem);
-      }
-      this.setState({
-        shopping: newState,
-      });
-    })
-  }
-
-  matchIngredients = () => {
-    const ingredientNames = [...this.state.ingredients.map(ing => ing.label.toLowerCase())];
-    const adjustedRecipes = [...this.state.recipes];
-    adjustedRecipes.map(recipe => {
-      const adjustedRecipeIngredients = {};
-      const ingredientsNeeded = [];
-      let matchCount = 0;
-      recipe.ingredients.forEach(item => {
-        if (ingredientNames.includes(item.toLowerCase())) {
-          adjustedRecipeIngredients[item.toLowerCase()] = true;
-          matchCount++;
-        } else {
-          adjustedRecipeIngredients[item.toLowerCase()] = false;
-          ingredientsNeeded.push(item.toLowerCase());
-        }
-      });
-      recipe.matchPercent = matchCount / recipe.ingredients.length;
-      recipe.adjustedRecipeIngredients = adjustedRecipeIngredients;
-      recipe.ingredientsNeeded = ingredientsNeeded;
-      return recipe;
-    });
-    this.setState({
-      recipes: adjustedRecipes,
-    });
-  }
-
-  editIngredient = (id) => {
-    const targetIngredient = this.state.ingredients.find(item => item.id === id);
-    this.setState({
-      targetIngredient,
-      isModalOpen: true,
-      isIngredientModal: true,
-    });
-  }
-
-  resetEditIngredient = () => {
-    this.setState({
-      targetIngredient: null,
-    });
-  }
-
-  deleteIngredient = (id) => {
-    db.collection('ingredients').doc(id).delete()
-    .then(() => console.log(`Document ${id} successfully deleted!`))
-    .catch(error => console.log('Error removing document: ', error));
-  }
-
-  updateIngredientMeasurement = (item, inc=true) => {
-    const { uid } = auth.currentUser;
-    const { id, measurement, label, unit } = item;
-    const newMeasurement = inc ? parseInt(measurement) + 1 : parseInt(measurement) - 1;
-    db.collection('ingredients').doc(id).set({
-      measurement: newMeasurement >= 1 ? newMeasurement : 1,
-      label,
-      unit,
-      uid,
-    })
-    .then(() => console.log(`Document ${id} successfully updated!`))
-    .catch(error => console.log('Error updating: ', error))
-  }
-
-  updateIngredient = (item) => {
-    const { uid } = auth.currentUser;
-    const { id, label, measurement, unit } = item;
-    db.collection('ingredients').doc(id).set({
-      label,
-      measurement,
-      unit,
-      uid,
-    })
-    .then(() => console.log(`Document ${id} successfully updated!`))
-    .catch(error => console.log('Error updating: ', error))
-    this.setState({
-      ingredientToAdd: {
-        label: '',
-        measurement: '',
-        unit: '',
-        id: '',
-      }
-    })
-    this.props.resetEditIngredient();
-  }
-
-  addToShoppingList = (ingredients) => {
-    console.log(`Adding ${ingredients} to shopping list...`)
-    const { uid } = auth.currentUser;
-    ingredients.map(label => (
-      db.collection('shopping').add({
-        uid,
-        label,
-        unit: 'unit',
-        measurement: 1,
-        done: false,
-      })
-      .then(docRef => {
-        console.log('Document written with ID: ', docRef);
-      })
-      .catch(error => console.log('Error adding document: ', error))
-    ));
-  }
-
-  openModal = (isRecipe=true) => {
-    this.setState({
-      isModalOpen: true,
-      [isRecipe ? 'isRecipeModal' : 'isIngredientModal']: true,
-    });
-  }
-
-  closeModal = () => {
-    this.setState({
-      isModalOpen: false,
-      isRecipeModal: false,
-      isIngredientModal: false,
-      targetIngredient: null,
-    })
-  }
-
-  signOut = () => auth.signOut();
-
-  handleChange = (_, value) => {
-    this.setState({
-      index: value,
-    });
-  }
-
-  handleChangeIndex = (index) => {
-    this.setState({
-      index,
-    })
-  }
 
   render() {
+    const { closeModal, setTabIndex, status } = this.props;
+    const { tabIndex, isModalOpen, isRecipeModal, isIngredientModal } = status;
     return (
       <>
-      <Nav handleChange={this.handleChange} index={this.state.index} isHidden={this.state.isModalOpen} path={this.props.path} />
+      <Nav handleChange={setTabIndex} index={tabIndex} isHidden={isModalOpen} path={this.props.path} />
 
-      <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-        <Home
-          openModal={this.openModal}
-          signOut={this.signOut}
-          active={this.state.index === 0}
-          recipes={this.state.recipes}
-          ingredients={this.state.ingredients}
-          key={0} />
-        <Ingredients
-          openModal={this.openModal}
-          ingredients={this.state.ingredients}
-          updateIngredientMeasurement={this.updateIngredientMeasurement}
-          editIngredient={this.editIngredient}
-          deleteIngredient={this.deleteIngredient}
-          active={this.state.index === 1}
-          key={1} />
-        <Recipes
-          openModal={this.openModal}
-          recipes={this.state.recipes}
-          active={this.state.index === 2}
-          key={2} />
-        <Meals
-          recipes={this.state.recipes}
-          active={this.state.index === 3} 
-          addToShoppingList={this.addToShoppingList}
-          key={3} />
-        <ShoppingList
-          shopping={this.state.shopping}
-          openModal={this.openModal}
-          active={this.state.index === 4}
-          key={4} />
+      <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={tabIndex} onChangeIndex={setTabIndex}>
+        <Home active={tabIndex === 0} key={0} />
+        <Ingredients active={tabIndex === 1} key={1} />
+        <Recipes active={tabIndex === 2} key={2} />
+        <Meals active={tabIndex === 3} key={3} />
+        <ShoppingList active={tabIndex === 4} key={4} />
       </BindKeyboardSwipeableViews>
 
       <StyledModal
-        isOpen={this.state.isModalOpen}
-        onRequestClose={this.closeModal}
-        scrollable={this.state.isRecipeModal}
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        scrollable={isRecipeModal}
       >
-        <CloseButton onClick={this.closeModal}>&times;</CloseButton>
-        { this.state.isRecipeModal && <AddRecipe closeModal={this.closeModal} />}
-        { this.state.isIngredientModal && <AddIngredient closeModal={this.closeModal} ingredientToEdit={this.state.targetIngredient} resetEditIngredient={this.resetEditIngredient} />}
+        <CloseButton onClick={closeModal}>&times;</CloseButton>
+        { isRecipeModal && <AddRecipe closeModal={closeModal} />}
+        { isIngredientModal && <AddIngredient closeModal={closeModal} />}
       </StyledModal>
       </>
     );
   }
 }
 
-export default withAuth(Dashboard);
+const mapStateToProps = (state) => {
+  return {
+    status: state.status,
+  }
+}
+
+export default connect(mapStateToProps, { openModal, closeModal, setTabIndex })(Dashboard);
