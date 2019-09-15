@@ -5,9 +5,11 @@ import { withAuth } from './hocs/withAuth';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Recipe from './pages/Recipe';
+import Nav from './components/Nav';
 import { getRecipes, mapRecipes } from './actions/recipes';
 import { getIngredients } from './actions/ingredients';
 import { getShoppingList } from './actions/shopping';
+import { setTabIndex } from './actions/app';
 
 class App extends Component {
 
@@ -20,16 +22,21 @@ class App extends Component {
   }
 
   componentDidUpdate = () => {
-    if (this.props.status.needsMapping) this.props.mapRecipes();
+    if (this.props.app.needsMapping) this.props.mapRecipes();
   }
 
   render() {
+    const { setTabIndex, app } = this.props;
+    const { tabIndex, isModalOpen } = app;
     return (
+      <>
+      <Nav handleChange={setTabIndex} index={tabIndex} isHidden={isModalOpen} path={window.location.pathname} />
       <Router>
-        <Dashboard exact path="/" />
-        <Login path="/login" />
-        <Recipe path="/recipes/:recipeId" />
+        <Dashboard path="/" />
+        <Login path="login" />
+        <Recipe path="recipes/:recipeId" />
       </Router>
+      </>
     );
   }
 }
@@ -39,7 +46,7 @@ const mapStateToProps = (state) => ({
   recipes: state.recipes,
   shopping: state.shopping,
   ingredientToEdit: state.ingredientToEdit,
-  status: state.status,
+  app: state.app,
 });
 
 export default connect(mapStateToProps, {
@@ -47,4 +54,5 @@ export default connect(mapStateToProps, {
   getIngredients,
   mapRecipes,
   getShoppingList,
+  setTabIndex
 })(withAuth(App));

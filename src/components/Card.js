@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { CardStyles } from './styles/Cards';
 import { StyledCardButton } from './styles/Buttons';
 import { addIngredientsToShoppingList } from '../actions/shopping';
+import { resetTabIndex } from '../actions/app';
 
-const Card = ({ item, matchCard, addIngredientsToShoppingList }) => (
+const Card = ({ item, matchCard, addIngredientsToShoppingList, resetTabIndex }) => (
   <CardStyles bgImage={item.imageUrl}>
     { matchCard && <span className="match">{Math.round(item.matchPercent * 100)}%</span> }
-    <h2><Link to={`/recipes/${item.id}`}>{item.title}</Link></h2>
+    <h2><Link to={`/recipes/${item.id}`} onClick={resetTabIndex}>{item.title}</Link></h2>
     { matchCard && (
       <div className="button-container">
         <StyledCardButton onClick={() => addIngredientsToShoppingList(item.ingredientsNeeded)}>
@@ -19,4 +20,4 @@ const Card = ({ item, matchCard, addIngredientsToShoppingList }) => (
   </CardStyles>
 );
 
-export default connect(null, { addIngredientsToShoppingList })(Card);
+export default connect(null, { addIngredientsToShoppingList, resetTabIndex })(Card);

@@ -8,9 +8,10 @@ const DEFAULT_STATUS = {
   isRecipeModal: false,
   isIngredientModal: false,
   tabIndex: 0,
+  activeRecipe: '',
 }
 
-const statusReducer = (state=DEFAULT_STATUS, action) => {
+const appReducer = (state=DEFAULT_STATUS, action) => {
   switch (action.type) {
     case Actions.SET_NEEDS_MAPPING_TRUE:
       return {
@@ -59,11 +60,11 @@ const statusReducer = (state=DEFAULT_STATUS, action) => {
     case Actions.RESET_TAB_INDEX:
       return {
         ...state,
-        tabIndex: 0,
+        tabIndex: DEFAULT_STATUS.tabIndex,
       }
     default:
       return state;
   }
 }
 
-export default statusReducer;
+export default appReducer;

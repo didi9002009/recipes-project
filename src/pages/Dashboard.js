@@ -40,12 +40,10 @@ const StyledModal = styled(Modal)`
 class Dashboard extends Component {
 
   render() {
-    const { closeModal, setTabIndex, status } = this.props;
-    const { tabIndex, isModalOpen, isRecipeModal, isIngredientModal } = status;
+    const { closeModal, setTabIndex, app } = this.props;
+    const { tabIndex, isModalOpen, isRecipeModal, isIngredientModal } = app;
     return (
       <>
-      <Nav handleChange={setTabIndex} index={tabIndex} isHidden={isModalOpen} path={this.props.path} />
-
       <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={tabIndex} onChangeIndex={setTabIndex}>
         <Home active={tabIndex === 0} key={0} />
         <Ingredients active={tabIndex === 1} key={1} />
@@ -70,7 +68,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    status: state.status,
+    app: state.app,
   }
 }
 

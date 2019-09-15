@@ -49,7 +49,7 @@ class AddRecipe extends Component {
   }
 
   render() {
-    const { recipeToEdit } = this.props.status;
+    const { recipeToEdit } = this.props.app;
     return (
       <StyledFormGroup>
         <h1>{ recipeToEdit && recipeToEdit.id ? 'Edit' : 'Add' } Recipe</h1>
@@ -109,7 +109,7 @@ class AddRecipe extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    status: state.status,
+    app: state.app,
   }
 }
 

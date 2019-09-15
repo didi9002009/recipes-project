@@ -33,7 +33,8 @@ export const createIngredient = (formValues) => {
     const payload = { ...formValues, uid };
     db.collection('ingredients').add(payload)
     .then(docRef => {
-      dispatch({ type: Actions.ADD_INGREDIENT_SUCCESS, payload });
+      // Unnecessary; Firebase is listening for updates
+      // dispatch({ type: Actions.ADD_INGREDIENT_SUCCESS, payload });
       dispatch({ type: Actions.SET_MODAL_CLOSED });
     })
     .catch(error => console.log('Error adding document: ', error));

@@ -31,23 +31,23 @@ const Nav = ({ handleChange, index, isHidden, path }) => !isHidden && (
     )
     : (
       <>
-        <StyledNavLink to="/" title="Home">
+        <StyledNavLink onClick={(e) => handleChange(0)} to="/" title="Home">
           <FontAwesomeIcon icon={faHome} size="1x" />
           <span>Home</span>
         </StyledNavLink>
-        <StyledNavLink to="/" title="Pantry">
+        <StyledNavLink onClick={(e) => handleChange(1)} to="/" title="Pantry">
           <FontAwesomeIcon icon={faAppleAlt} size="1x" />
           <span>Pantry</span>
         </StyledNavLink>
-        <StyledNavLink to="/" title="Recipes">
+        <StyledNavLink onClick={(e) => handleChange(2)} to="/" title="Recipes">
           <FontAwesomeIcon icon={faBook} size="1x" />
           <span>Recipes</span>
         </StyledNavLink>
-        <StyledNavLink to="/" title="Meal Wizard">
+        <StyledNavLink onClick={(e) => handleChange(3)} to="/" title="Meal Wizard">
           <FontAwesomeIcon icon={faMagic} size="1x" />
           <span>Meal Wizard</span>
         </StyledNavLink>
-        <StyledNavLink to="/" title="Shopping List">
+        <StyledNavLink onClick={(e) => handleChange(4)} to="/" title="Shopping List">
           <FontAwesomeIcon icon={faList} size="1x" />
           <span>Shopping List</span>
         </StyledNavLink>

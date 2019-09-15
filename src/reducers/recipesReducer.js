@@ -9,8 +9,13 @@ const recipesReducer = (state=[], action) => {
     case Actions.ADD_RECIPE_SUCCESS:
       return [...state, action.payload];
     case Actions.UPDATE_RECIPE_SUCCESS:
-      const updatedState = [...state].filter(item => item.id !== action.payload.id);
-      return [...updatedState, action.payload];
+        const updatedState = state.map(item => {
+          if (item.id === action.payload.id) {
+            item = action.payload
+          }
+          return item;
+        });
+        return updatedState;
     case Actions.DELETE_RECIPE_SUCCESS:
         return [...state].filter(item => item.id !== action.payload);
     default:

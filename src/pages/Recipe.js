@@ -38,8 +38,8 @@ class Recipe extends Component {
             { recipe.largeImageUrl && <img src={recipe.largeImageUrl} alt={recipe.title} />}
             <h2>Ingredients</h2>
             <ul>
-              { recipe.ingredients.map(ingredient => (
-                <StyledIngredientListItem>
+              { recipe.ingredients.map((ingredient, index) => (
+                <StyledIngredientListItem key={index}>
                   { ingredient }
                 </StyledIngredientListItem>
               ))}

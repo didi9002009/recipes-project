@@ -32,7 +32,8 @@ export const addIngredientsToShoppingList = (ingredients) => {
       };
       db.collection('shopping').add(payload)
       .then(docRef => {
-        dispatch({ type: Actions.ADD_LIST_INGREDIENT_SUCCESS, payload });
+        // Unnecessary; Firebase is listening for updates
+        // dispatch({ type: Actions.ADD_LIST_INGREDIENT_SUCCESS, payload });
       })
       .catch(error => console.log('Error adding document: ', error))
     });
