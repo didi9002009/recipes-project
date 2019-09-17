@@ -16,7 +16,7 @@ const Recipes = ({ recipes, openModal, active }) => active && (
         </AddButton>
       </JustifiedRow>
       <CardsContainer>
-        { recipes.map(item => <Card item={item} key={item.id} />)}
+        { recipes.map(item => <Card item={item} key={`recipes-${item.id}`} />)}
       </CardsContainer>
     </StyledRecipesSection>
   </StyledRecipesMain>

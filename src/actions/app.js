@@ -23,3 +23,11 @@ export const resetTabIndex = () => {
     dispatch({ type: Actions.RESET_TAB_INDEX });
   }
 }
+
+export const setActiveRecipe = (id) => {
+  return (dispatch, getState) => {
+    const payload = getState().recipes.find(recipe => recipe.id === id);
+    dispatch({ type: Actions.SET_ACTIVE_RECIPE, payload });
+    dispatch({ type: Actions.SET_TAB_INDEX, payload: 5 });
+  }
+}

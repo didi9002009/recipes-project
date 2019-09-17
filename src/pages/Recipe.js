@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from '@reach/router';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { db, auth } from '../firebase.js';
@@ -7,54 +8,41 @@ import Nav from '../components/Nav';
 import { StyledIngredientsMain, StyledCurrentIngredientsSection, StyledQuickAddIngredientsSection, StyledIngredientListItem } from '../components/styles/Views';
 
 class Recipe extends Component {
-  state = {
-    recipe: null,
-  }
-
   componentDidMount = () => {
-    const { recipeId } = this.props;
-    const { uid } = auth.currentUser;
-
-    db.collection('recipes').where("uid", "==", uid).onSnapshot(snapshot => {
-      try {
-        const recipe = snapshot.docs.find(doc => doc.id === recipeId).data();
-        if (recipe) this.setState({ recipe });
-        else console.log('No document exists');
-      } catch (error) {
-        console.log('Error retrieving document')
-      }
-    });
+    console.log('Mounted Recipe!')
   }
-
   render() {
-    const { recipe } = this.state;
-    return recipe && (
-      <>
-        <Nav path={this.props.path} />
-
-        <StyledIngredientsMain>
-          <StyledCurrentIngredientsSection>
-            <h1>{ recipe.title }</h1>
-            { recipe.largeImageUrl && <img src={recipe.largeImageUrl} alt={recipe.title} />}
-            <h2>Ingredients</h2>
-            <ul>
-              { recipe.ingredients.map((ingredient, index) => (
-                <StyledIngredientListItem key={index}>
-                  { ingredient }
-                </StyledIngredientListItem>
-              ))}
-            </ul>
-            <h2>Instructions</h2>
-            { recipe.instructions && <div dangerouslySetInnerHTML={{__html: recipe.instructions.replace(/\n/g, "<br />")}}></div> }
-          </StyledCurrentIngredientsSection>
-          <StyledQuickAddIngredientsSection>
-            <h2>What you have</h2>
-            <p>Coming soon!</p>
-          </StyledQuickAddIngredientsSection>
-        </StyledIngredientsMain>
-      </>
+    console.log('Rendered Recipe!')
+    const { activeRecipe } = this.props.app;
+    return activeRecipe && (
+      <StyledIngredientsMain>
+        <StyledCurrentIngredientsSection>
+          <h1>{ activeRecipe.title }</h1>
+          { activeRecipe.largeImageUrl && <img src={activeRecipe.largeImageUrl} alt={activeRecipe.title} />}
+          <h2>Ingredients</h2>
+          <ul>
+            { activeRecipe.ingredients.map((ingredient, index) => (
+              <StyledIngredientListItem key={index}>
+                { ingredient }
+              </StyledIngredientListItem>
+            ))}
+          </ul>
+          <h2>Instructions</h2>
+          { activeRecipe.instructions && <div dangerouslySetInnerHTML={{__html: activeRecipe.instructions.replace(/\n/g, "<br />")}}></div> }
+        </StyledCurrentIngredientsSection>
+        <StyledQuickAddIngredientsSection>
+          <h2>What you have</h2>
+          <p>Coming soon!</p>
+        </StyledQuickAddIngredientsSection>
+      </StyledIngredientsMain>
     )
   }
 }
 
-export default Recipe;
+const mapStateToProps = (state) => {
+  return {
+    app: state.app,
+  }
+}
+
+export default connect(mapStateToProps)(Recipe);

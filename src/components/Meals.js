@@ -10,7 +10,7 @@ const Meals = ({ recipes, active }) => active && (
       <h1>You have ingredients to make...</h1>
       <CardsContainer>
         { recipes.sort((a, b) => b.matchPercent - a.matchPercent).map(recipe => (
-          <Card item={recipe} matchCard key={recipe.id} />
+          <Card item={recipe} matchCard key={`meals-${recipe.id}`} />
         ))}
       </CardsContainer>
     </StyledRecipesSection>

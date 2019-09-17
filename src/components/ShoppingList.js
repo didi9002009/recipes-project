@@ -10,8 +10,9 @@ import {
   StyledIngredientListItem,
 } from './styles/Views';
 import { openModal } from '../actions/app';
+import { toggleDone, updatePantry } from '../actions/shopping';
 
-const ShoppingList = ({ openModal, active, shopping }) => active && (
+const ShoppingList = ({ openModal, active, shopping, toggleDone, updatePantry }) => active && (
   <StyledIngredientsMain>
     <StyledCurrentIngredientsSection>
       <JustifiedRow>
@@ -19,11 +20,12 @@ const ShoppingList = ({ openModal, active, shopping }) => active && (
         <button onClick={() => openModal(true)}>
           <FontAwesomeIcon icon={faPlus} />
         </button>
+        <button onClick={updatePantry}>Update Pantry</button>
       </JustifiedRow>
       <ul>
         {shopping.map(item => (
           <StyledIngredientListItem key={item.id} checked={item.done} alignLeft>
-            <input type="checkbox" checked={item.done} onChange={(e) => console.log(e.target.checked, item.id)} />
+            <input type="checkbox" checked={item.done} onChange={(e) => toggleDone(item)} />
             {item.label}
           </StyledIngredientListItem>
         ))}
@@ -42,4 +44,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { openModal })(ShoppingList);
+export default connect(mapStateToProps, { openModal, toggleDone, updatePantry })(ShoppingList);

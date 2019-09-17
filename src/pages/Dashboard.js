@@ -4,15 +4,16 @@ import SwipeableViews from 'react-swipeable-views';
 import { bindKeyboard } from 'react-swipeable-views-utils';
 import Modal from 'react-modal';
 import styled from 'styled-components';
+import Nav from '../components/Nav';
 import AddRecipe from '../components/AddRecipe';
 import AddIngredient from '../components/AddIngredient';
 import Ingredients from '../components/Ingredients';
 import Recipes from '../components/Recipes';
 import Home from '../components/Home';
 import { CloseButton } from '../components/styles/Buttons';
-import Nav from '../components/Nav';
 import Meals from '../components/Meals';
 import ShoppingList from '../components/ShoppingList';
+import Recipe from './Recipe';
 import { openModal, closeModal, setTabIndex } from '../actions/app';
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
@@ -44,12 +45,15 @@ class Dashboard extends Component {
     const { tabIndex, isModalOpen, isRecipeModal, isIngredientModal } = app;
     return (
       <>
+      <Nav handleChange={setTabIndex} index={tabIndex} isHidden={isModalOpen} />
+      
       <BindKeyboardSwipeableViews enableMouseEvents animateHeight index={tabIndex} onChangeIndex={setTabIndex}>
         <Home active={tabIndex === 0} key={0} />
         <Ingredients active={tabIndex === 1} key={1} />
         <Recipes active={tabIndex === 2} key={2} />
         <Meals active={tabIndex === 3} key={3} />
         <ShoppingList active={tabIndex === 4} key={4} />
+        <Recipe active={tabIndex === 5} key={5} />
       </BindKeyboardSwipeableViews>
 
       <StyledModal

@@ -62,6 +62,16 @@ const appReducer = (state=DEFAULT_STATUS, action) => {
         ...state,
         tabIndex: DEFAULT_STATUS.tabIndex,
       }
+    case Actions.SET_ACTIVE_RECIPE:
+      return {
+        ...state,
+        activeRecipe: action.payload,
+      }
+    case Actions.RESET_ACTIVE_RECIPE:
+      return {
+        ...state,
+        activeRecipe: DEFAULT_STATUS.activeRecipe,
+      }
     default:
       return state;
   }
