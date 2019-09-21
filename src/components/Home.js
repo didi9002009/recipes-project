@@ -11,8 +11,8 @@ const Home = ({ openModal, signOut, active, recipes, ingredients }) => active &&
       <h1>Welcome to your Pantry Manager!</h1>
       <h2>Quick Links</h2>
       <div>
-        <HomeButton onClick={() => openModal(true)}>Add Recipe</HomeButton>
-        <HomeButton onClick={() => openModal(false)}>Add Ingredient</HomeButton>
+        <HomeButton onClick={() => openModal('recipe')}>Add Recipe</HomeButton>
+        <HomeButton onClick={() => openModal('ingredient')}>Add Ingredient</HomeButton>
       </div>
       <h2>Recent Activity</h2>
       { !!recipes.length && <p>The last recipe you added was <Link to={`/recipes/${recipes[recipes.length-1]['id']}`}>{recipes[recipes.length-1]['title']}</Link>.</p> }

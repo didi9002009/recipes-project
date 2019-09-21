@@ -11,7 +11,7 @@ const Recipes = ({ recipes, openModal, active }) => active && (
     <StyledRecipesSection>
       <JustifiedRow>
         <h1>Recipes</h1>
-        <AddButton onClick={() => openModal(true)}>
+        <AddButton onClick={() => openModal('recipe')}>
           Add Recipe
         </AddButton>
       </JustifiedRow>

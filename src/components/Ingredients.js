@@ -25,7 +25,7 @@ const Ingredients = ({
     <StyledCurrentIngredientsSection>
       <JustifiedRow>
         <h1>Pantry</h1>
-        <AddButton onClick={() => openModal(false)}>Add Ingredient</AddButton>
+        <AddButton onClick={() => openModal('ingredient')}>Add Ingredient</AddButton>
       </JustifiedRow>
       <h2>You have {ingredients.length} ingredient{ingredients.length === 1 ? '' : 's'}:</h2>
       <ul>

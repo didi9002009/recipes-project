@@ -7,6 +7,7 @@ const DEFAULT_STATUS = {
   isModalOpen: false,
   isRecipeModal: false,
   isIngredientModal: false,
+  isListIngredientModal: false,
   tabIndex: 0,
   activeRecipe: '',
 }
@@ -45,12 +46,19 @@ const appReducer = (state=DEFAULT_STATUS, action) => {
         isModalOpen: true,
         isRecipeModal: true,
       }
+    case Actions.SET_LIST_INGREDIENT_MODAL_OPEN:
+      return {
+        ...state,
+        isModalOpen: true,
+        isListIngredientModal: true,
+      }
     case Actions.SET_MODAL_CLOSED:
       return {
         ...state,
         isModalOpen: false,
         isIngredientModal: false,
         isRecipeModal: false,
+        isListIngredientModal: false,
       }
     case Actions.SET_TAB_INDEX:
       return {

@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyledFormGroup, StyledInputGroup, StyledLabel, StyledSubmitButton } from './styles/Forms';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { createIngredient, updateIngredient } from '../actions/ingredients';
+import { createListIngredient } from '../actions/shopping';
 
-class AddIngredient extends Component {
-
-  addOrUpdateIngredient = (formValues) => {
-    const { app, createIngredient, updateIngredient } = this.props;
-    const { ingredientToEdit } = app;
-    if (!ingredientToEdit) createIngredient(formValues);
-    if (ingredientToEdit) updateIngredient(ingredientToEdit.id, formValues);
-  }
+class AddListIngredient extends Component {
 
   validate = (values) => {
     let errors = {};
@@ -23,20 +16,19 @@ class AddIngredient extends Component {
   }
 
   render() {
-    const { ingredientToEdit } = this.props.app;
     return (
       <StyledFormGroup>
-        <h1>{ingredientToEdit && ingredientToEdit.id ? 'Edit' : 'Add' } Ingredient</h1>
+        <h1>Add Item to Shopping List</h1>
         <Formik
           initialValues={{
-            label: ingredientToEdit && ingredientToEdit.label ? ingredientToEdit.label : '',
-            measurement: ingredientToEdit && ingredientToEdit.measurement ? ingredientToEdit.measurement : '',
-            unit: ingredientToEdit && ingredientToEdit.unit ? ingredientToEdit.unit : '',
+            label: '',
+            measurement: '',
+            unit: '',
           }}
           enableReinitialize
           validate={values => this.validate(values)}
           onSubmit={(values, { setSubmitting }) => {
-            this.addOrUpdateIngredient(values);
+            this.props.createListIngredient(values);
           }}
         >
           {({ isSubmitting, errors, touched }) => (
@@ -70,10 +62,4 @@ class AddIngredient extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    app: state.app,
-  }
-}
-
-export default connect(mapStateToProps, { createIngredient, updateIngredient })(AddIngredient);
+export default connect(null, { createListIngredient })(AddListIngredient);

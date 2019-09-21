@@ -9,6 +9,7 @@ import {
   StyledQuickAddIngredientsSection,
   StyledIngredientListItem,
 } from './styles/Views';
+import { AddButton } from './styles/Buttons';
 import { openModal } from '../actions/app';
 import { toggleDone, updatePantry } from '../actions/shopping';
 
@@ -17,10 +18,10 @@ const ShoppingList = ({ openModal, active, shopping, toggleDone, updatePantry })
     <StyledCurrentIngredientsSection>
       <JustifiedRow>
         <h1>Shopping List</h1>
-        <button onClick={() => openModal(true)}>
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-        <button onClick={updatePantry}>Update Pantry</button>
+        <div>
+          <AddButton onClick={() => openModal('listIngredient')}>Add Item</AddButton>
+          <AddButton onClick={updatePantry}>Update Pantry</AddButton>
+        </div>
       </JustifiedRow>
       <ul>
         {shopping.map(item => (

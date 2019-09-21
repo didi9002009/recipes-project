@@ -13,7 +13,7 @@ export const HomeButton = styled.button`
 `;
 
 export const AddButton = styled(HomeButton)`
-  margin: 1rem 0;
+  margin: 1rem 0 0 0.5rem;
 `;
 
 export const DeleteButton = styled(HomeButton)`

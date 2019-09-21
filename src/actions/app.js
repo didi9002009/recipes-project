@@ -1,8 +1,20 @@
 import { Actions } from './actions';
 
-export const openModal = (isRecipe=true) => {
+export const openModal = (modalType) => {
   return (dispatch) => {
-    dispatch({ type: isRecipe ? Actions.SET_RECIPE_MODAL_OPEN : Actions.SET_INGREDIENT_MODAL_OPEN });
+    switch (modalType) {
+      case "recipe":
+        dispatch({ type: Actions.SET_RECIPE_MODAL_OPEN });
+        break;
+      case "ingredient":
+        dispatch({ type: Actions.SET_INGREDIENT_MODAL_OPEN });
+        break;
+      case "listIngredient":
+        dispatch({ type: Actions.SET_LIST_INGREDIENT_MODAL_OPEN });
+        break;
+      default:
+        return null;
+    }
   }
 }
 

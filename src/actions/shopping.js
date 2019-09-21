@@ -40,6 +40,27 @@ export const addIngredientsToShoppingList = (ingredients) => {
   };
 }
 
+export const createListIngredient = (formValues) => {
+  return (dispatch) => {
+    const { uid } = auth.currentUser;
+    const { label, unit, measurement } = formValues;
+    const payload = {
+      label,
+      unit,
+      measurement,
+      uid,
+      done: false,
+    };
+    db.collection('shopping').add(payload)
+    .then(docRef => {
+      // Unnecessary; Firebase is listening for updates
+      // dispatch({ type: Actions.ADD_LIST_INGREDIENT_SUCCESS, payload });
+      dispatch({ type: Actions.SET_MODAL_CLOSED });
+    })
+    .catch(error => console.log('Error adding document: ', error));
+  }
+}
+
 export const toggleDone = (item) => {
   return (dispatch) => {
     const { uid } = auth.currentUser;

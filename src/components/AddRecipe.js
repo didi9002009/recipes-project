@@ -16,10 +16,10 @@ class AddRecipe extends Component {
   }
 
   addOrUpdateRecipe = (formValues) => {
-    const { status, createRecipe, updateRecipe } = this.props;
+    const { app, createRecipe, updateRecipe } = this.props;
     const { imageUrl, largeImageUrl } = this.state;
-    if (!status.recipeToEdit) createRecipe(formValues, imageUrl, largeImageUrl);
-    if (status.recipeToEdit) updateRecipe(status.recipeToEdit.id, formValues);
+    if (!app.recipeToEdit) createRecipe(formValues, imageUrl, largeImageUrl);
+    if (app.recipeToEdit) updateRecipe(app.recipeToEdit.id, formValues);
   }
 
   handleImageUpload = async (e) => {
@@ -113,7 +113,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {
-  createRecipe,
-  updateRecipe,
-})(AddRecipe);
+export default connect(mapStateToProps, { createRecipe, updateRecipe })(AddRecipe);
